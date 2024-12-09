@@ -9,48 +9,52 @@ Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& 
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 void Menu::mostrarMenuDocente() {
-	int opcion;
+    int opcion;
     std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
+
     // Buscar el docente por ID
     auto it = std::find_if(docentes.begin(), docentes.end(), [docenteId](const Docente& docente) {
-		return docente.getId() == docenteId;
+        return docente.getId() == docenteId;
     });
 
     if (it == docentes.end()) {
         std::cout << "Docente no encontrado." << std::endl;
+        system("PAUSE");
         return;
     }
-	
-		std::cout << "Bienvenido, " << it->getNombre() << std::endl;
-	do{
-   		std::cout << "1. Ingresar notas" << std::endl;
-    	std::cout << "2. Ver notas" << std::endl;
-   		std::cout << "0. Volver" << std::endl;
- 		std::cin >> opcion;
 
-    	 switch (opcion) {
-       		 case 1:
-            	ingresarNotas();
-           		 break;
-        	case 2:
-           		 mostrarNotas();
-            	break;
-            case 0: {
-            	 opcion = 0; 
-				break;
-			}
-       		default:
-            	std::cout << "Opción no valida." << std::endl;
-    }
-    
-	}while(opcion != 0); 
+    std::cout << "Bienvenido, " << it->getNombre() << std::endl;
 
+    do {
+        system("cls");
+        std::cout << "===== MENU DOCENTE =====" << std::endl;
+        std::cout << "1. Ingresar notas" << std::endl;
+        std::cout << "2. Ver notas" << std::endl;
+        std::cout << "0. Volver" << std::endl;
+        std::cout << "Seleccione una opcion: ";
+        std::cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                ingresarNotas();
+                break;
+            case 2:
+                mostrarNotas();
+                system("PAUSE");
+                break;
+            case 0:
+                break;
+            default:
+                std::cout << "Opcion no valida." << std::endl;
+                system("PAUSE");
+        }
+    } while (opcion != 0);
 }
 
 void Menu::mostrarMenuEstudiante() {
-	int opcion;
+    int opcion;
     std::string estudianteId;
     std::cout << "Ingrese su ID de estudiante: ";
     std::cin >> estudianteId;
@@ -62,29 +66,32 @@ void Menu::mostrarMenuEstudiante() {
 
     if (it == estudiantes.end()) {
         std::cout << "Estudiante no encontrado." << std::endl;
+        system("PAUSE");
         return;
     }
 
     std::cout << "Bienvenido, " << it->getNombre() << std::endl;
-    do{
-    	std::cout << "1. Ver notas" << std::endl;
-    	std::cout << "0. Volver" << std::endl;
-		std::cin >> opcion;
 
-    		switch (opcion) {
-        		case 1:
-            		verNotasEstudiante(estudianteId);
-            		break;
-            	case 0: {
-            		opcion = 0; 
-					break;
-				}
-        		default:
-            	std::cout << "Opción no válida." << std::endl;
-    }
-    
-	}while(opcion != 0); 
-    
+    do {
+        system("cls");
+        std::cout << "===== MENU ESTUDIANTE =====" << std::endl;
+        std::cout << "1. Ver notas" << std::endl;
+        std::cout << "0. Volver" << std::endl;
+        std::cout << "Seleccione una opcion: ";
+        std::cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                verNotasEstudiante(estudianteId);
+                system("PAUSE");
+                break;
+            case 0:
+                break;
+            default:
+                std::cout << "Opcion no valida." << std::endl;
+                system("PAUSE");
+        }
+    } while (opcion != 0);
 }
 
 void Menu::mostrarContenidoArchivoEstudiantes() {
@@ -96,18 +103,19 @@ void Menu::mostrarContenidoArchivoEstudiantes() {
 
     std::string line;
     while (std::getline(file, line)) {
-        std::cout << line << std::endl;  // Mostrar cada línea del archivo
+        std::cout << line << std::endl;
     }
     file.close();
 }
 
 void Menu::ingresarNotas() {
+    system("cls");
     std::string estudianteId, cursoId;
     double nota1, nota2, nota3;
 
-    // Mostrar lista de estudiantes antes de pedir el ID del docente
     std::cout << "Lista de estudiantes disponibles:" << std::endl;
-    mostrarContenidoArchivoEstudiantes();  // Mostrar el contenido del archivo de estudiantes
+    std::cout << std::endl; 
+    mostrarContenidoArchivoEstudiantes();
 
     std::cout << "Ingrese el ID del estudiante: ";
     std::cin >> estudianteId;
@@ -120,7 +128,6 @@ void Menu::ingresarNotas() {
     std::cout << "Ingrese la nota 3: ";
     std::cin >> nota3;
 
-    // Buscar la nota existente o crear una nueva
     auto it = std::find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
         return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId;
     });
@@ -134,9 +141,11 @@ void Menu::ingresarNotas() {
     }
 
     std::cout << "Notas ingresadas correctamente." << std::endl;
+    system("PAUSE");
 }
 
 void Menu::mostrarNotas() {
+    system("cls");
     for (const auto& nota : notas) {
         std::cout << "Estudiante ID: " << nota.getEstudianteId()
                   << ", Curso ID: " << nota.getCursoId()
@@ -148,6 +157,7 @@ void Menu::mostrarNotas() {
 }
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
+    system("cls");
     std::cout << "=========================================================" << std::endl;
     std::cout << "                    NOTAS DEL ESTUDIANTE                 " << std::endl;
     std::cout << "=========================================================" << std::endl;
@@ -178,4 +188,3 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
 
     std::cout << "=========================================================" << std::endl;
 }
-
