@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include <iostream>
 #include <algorithm>
+#include <iomanip>
 
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, const std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
@@ -118,13 +119,33 @@ void Menu::mostrarNotas() {
 }
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
+    std::cout << "=========================================================" << std::endl;
+    std::cout << "                    NOTAS DEL ESTUDIANTE                 " << std::endl;
+    std::cout << "=========================================================" << std::endl;
+    std::cout << std::left << std::setw(10) << "Curso"
+              << std::setw(10) << "Nota 1"
+              << std::setw(10) << "Nota 2"
+              << std::setw(10) << "Nota 3"
+              << std::setw(10) << "Promedio" << std::endl;
+    std::cout << "---------------------------------------------------------" << std::endl;
+
+    bool encontrado = false;
+
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
-            std::cout << "Curso ID: " << nota.getCursoId()
-                      << ", Nota 1: " << nota.getNota1()
-                      << ", Nota 2: " << nota.getNota2()
-                      << ", Nota 3: " << nota.getNota3()
-                      << ", Promedio: " << nota.calcularPromedio() << std::endl;
+            encontrado = true;
+            std::cout << std::left << std::setw(10) << nota.getCursoId()
+                      << std::setw(10) << nota.getNota1()
+                      << std::setw(10) << nota.getNota2()
+                      << std::setw(10) << nota.getNota3()
+                      << std::setw(10) << nota.calcularPromedio() << std::endl;
         }
     }
+
+    if (!encontrado) {
+        std::cout << "No se encontraron notas para el estudiante con ID: "
+                  << estudianteId << std::endl;
+    }
+
+    std::cout << "=========================================================" << std::endl;
 }
