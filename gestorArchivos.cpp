@@ -16,14 +16,23 @@ std::vector<Docente> GestorArchivos::cargarDocentes(const std::string& archivo) 
 }
 
 std::vector<Estudiante> GestorArchivos::cargarEstudiantes(const std::string& archivo) {
-    std::vector<Estudiante> estudiantes;
+     std::vector<Estudiante> estudiantes;
     std::ifstream file(archivo);
     std::string line;
+
     while (std::getline(file, line)) {
         std::istringstream iss(line);
-        std::string id, nombre;
-        iss >> id >> nombre;
-        estudiantes.emplace_back(id, nombre);
+        std::string id, nombreCompleto;
+
+        iss >> id;                      // Leer el ID
+        std::getline(iss, nombreCompleto); // Leer el resto de la línea como el nombre completo
+        if (!id.empty() && !nombreCompleto.empty()) {
+            // Quitar espacios adicionales del nombre completo
+            if (nombreCompleto.front() == ' ') {
+                nombreCompleto.erase(0, 1);
+            }
+            estudiantes.emplace_back(id, nombreCompleto);
+        }
     }
     return estudiantes;
 }

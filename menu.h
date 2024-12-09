@@ -13,9 +13,13 @@ public:
     void mostrarMenuDocente();
     void mostrarMenuEstudiante();
     void ingresarNotas();
-	void mostrarNotas(); 
-	void verNotasEstudiante(const std::string&); 
+    void mostrarNotas(); 
+    void verNotasEstudiante(const std::string&); 
+
 private:
+    void mostrarListaEstudiantes();
+    void mostrarContenidoArchivoEstudiantes();  // Declaración de la función
+
     std::vector<Docente> docentes;
     std::vector<Estudiante> estudiantes;
     std::vector<Curso> cursos;
