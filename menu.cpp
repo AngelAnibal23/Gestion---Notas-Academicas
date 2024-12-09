@@ -1,12 +1,15 @@
 #include "Menu.h"
 #include <iostream>
 #include <algorithm>
+#include <fstream>
+#include <sstream>
+
 
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, const std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 void Menu::mostrarMenuDocente() {
-    std::string docenteId;
+	std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
 
@@ -75,10 +78,28 @@ void Menu::mostrarMenuEstudiante() {
     }
 }
 
+void Menu::mostrarContenidoArchivoEstudiantes() {
+    std::ifstream file("estudiantes.txt");
+    if (!file.is_open()) {
+        std::cout << "No se pudo abrir el archivo de estudiantes." << std::endl;
+        return;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        std::cout << line << std::endl;  // Mostrar cada línea del archivo
+    }
+    file.close();
+}
+
 void Menu::ingresarNotas() {
     std::string estudianteId, cursoId;
     double nota1, nota2, nota3;
-
+	
+	// Mostrar lista de estudiantes antes de pedir el ID del docente
+	std::cout << "Lista de estudiantes disponibles:" << std::endl;
+	mostrarContenidoArchivoEstudiantes();  // Mostrar el contenido del archivo de estudiantes	
+	
     std::cout << "Ingrese el ID del estudiante: ";
     std::cin >> estudianteId;
     std::cout << "Ingrese el ID del curso: ";
@@ -128,3 +149,4 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
         }
     }
 }
+
