@@ -3,13 +3,13 @@
 #include <algorithm>
 #include <fstream>
 #include <sstream>
-
+#include <iomanip>
 
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, const std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 void Menu::mostrarMenuDocente() {
-	std::string docenteId;
+    std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
 
@@ -95,11 +95,11 @@ void Menu::mostrarContenidoArchivoEstudiantes() {
 void Menu::ingresarNotas() {
     std::string estudianteId, cursoId;
     double nota1, nota2, nota3;
-	
-	// Mostrar lista de estudiantes antes de pedir el ID del docente
-	std::cout << "Lista de estudiantes disponibles:" << std::endl;
-	mostrarContenidoArchivoEstudiantes();  // Mostrar el contenido del archivo de estudiantes	
-	
+
+    // Mostrar lista de estudiantes antes de pedir el ID del docente
+    std::cout << "Lista de estudiantes disponibles:" << std::endl;
+    mostrarContenidoArchivoEstudiantes();  // Mostrar el contenido del archivo de estudiantes
+
     std::cout << "Ingrese el ID del estudiante: ";
     std::cin >> estudianteId;
     std::cout << "Ingrese el ID del curso: ";
@@ -139,14 +139,34 @@ void Menu::mostrarNotas() {
 }
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
+    std::cout << "=========================================================" << std::endl;
+    std::cout << "                    NOTAS DEL ESTUDIANTE                 " << std::endl;
+    std::cout << "=========================================================" << std::endl;
+    std::cout << std::left << std::setw(10) << "Curso"
+              << std::setw(10) << "Nota 1"
+              << std::setw(10) << "Nota 2"
+              << std::setw(10) << "Nota 3"
+              << std::setw(10) << "Promedio" << std::endl;
+    std::cout << "---------------------------------------------------------" << std::endl;
+
+    bool encontrado = false;
+
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
-            std::cout << "Curso ID: " << nota.getCursoId()
-                      << ", Nota 1: " << nota.getNota1()
-                      << ", Nota 2: " << nota.getNota2()
-                      << ", Nota 3: " << nota.getNota3()
-                      << ", Promedio: " << nota.calcularPromedio() << std::endl;
+            encontrado = true;
+            std::cout << std::left << std::setw(10) << nota.getCursoId()
+                      << std::setw(10) << nota.getNota1()
+                      << std::setw(10) << nota.getNota2()
+                      << std::setw(10) << nota.getNota3()
+                      << std::setw(10) << nota.calcularPromedio() << std::endl;
         }
     }
+
+    if (!encontrado) {
+        std::cout << "No se encontraron notas para el estudiante con ID: "
+                  << estudianteId << std::endl;
+    }
+
+    std::cout << "=========================================================" << std::endl;
 }
 
