@@ -1,4 +1,4 @@
-#include "Menu.h"
+#include "menu.h"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
@@ -9,43 +9,48 @@ Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& 
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 void Menu::mostrarMenuDocente() {
+	int opcion;
     std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
-
     // Buscar el docente por ID
     auto it = std::find_if(docentes.begin(), docentes.end(), [docenteId](const Docente& docente) {
-        return docente.getId() == docenteId;
+		return docente.getId() == docenteId;
     });
 
     if (it == docentes.end()) {
         std::cout << "Docente no encontrado." << std::endl;
         return;
     }
+	
+		std::cout << "Bienvenido, " << it->getNombre() << std::endl;
+	do{
+   		std::cout << "1. Ingresar notas" << std::endl;
+    	std::cout << "2. Ver notas" << std::endl;
+   		std::cout << "0. Volver" << std::endl;
+ 		std::cin >> opcion;
 
-    std::cout << "Bienvenido, " << it->getNombre() << std::endl;
-    std::cout << "1. Ingresar notas" << std::endl;
-    std::cout << "2. Ver notas" << std::endl;
-    std::cout << "0. Volver" << std::endl;
-
-    int opcion;
-    std::cin >> opcion;
-
-    switch (opcion) {
-        case 1:
-            ingresarNotas();
-            break;
-        case 2:
-            mostrarNotas();
-            break;
-        case 0:
-            break;
-        default:
-            std::cout << "Opción no válida." << std::endl;
+    	 switch (opcion) {
+       		 case 1:
+            	ingresarNotas();
+           		 break;
+        	case 2:
+           		 mostrarNotas();
+            	break;
+            case 0: {
+            	 opcion = 0; 
+				break;
+			}
+       		default:
+            	std::cout << "Opción no valida." << std::endl;
     }
+    
+	}while(opcion != 0); 
+
 }
 
 void Menu::mostrarMenuEstudiante() {
+	int opcion;
     std::string estudianteId;
     std::cout << "Ingrese su ID de estudiante: ";
     std::cin >> estudianteId;
@@ -61,21 +66,25 @@ void Menu::mostrarMenuEstudiante() {
     }
 
     std::cout << "Bienvenido, " << it->getNombre() << std::endl;
-    std::cout << "1. Ver notas" << std::endl;
-    std::cout << "0. Volver" << std::endl;
+    do{
+    	std::cout << "1. Ver notas" << std::endl;
+    	std::cout << "0. Volver" << std::endl;
+		std::cin >> opcion;
 
-    int opcion;
-    std::cin >> opcion;
-
-    switch (opcion) {
-        case 1:
-            verNotasEstudiante(estudianteId);
-            break;
-        case 0:
-            break;
-        default:
-            std::cout << "Opción no válida." << std::endl;
+    		switch (opcion) {
+        		case 1:
+            		verNotasEstudiante(estudianteId);
+            		break;
+            	case 0: {
+            		opcion = 0; 
+					break;
+				}
+        		default:
+            	std::cout << "Opción no válida." << std::endl;
     }
+    
+	}while(opcion != 0); 
+    
 }
 
 void Menu::mostrarContenidoArchivoEstudiantes() {
