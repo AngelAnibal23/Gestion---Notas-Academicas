@@ -1,7 +1,44 @@
 #include <iostream>
+#include <vector>
+#include "docente.h"
+#include "estudiante.h"
+#include "curso.h"
+#include "nota.h"
+#include "gestorArchivos.h"
+#include "menu.h"
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+int main() {
+    std::vector<Docente> docentes = GestorArchivos::cargarDocentes("docentes.txt");
+    std::vector<Estudiante> estudiantes = GestorArchivos::cargarEstudiantes("estudiantes.txt");
+    std::vector<Curso> cursos = GestorArchivos::cargarCursos("cursos.txt");
+    std::vector<Nota> notas = GestorArchivos::cargarNotas("notas.txt");
+	//this is the test
+    Menu menu(docentes, estudiantes, cursos, notas);
 
-int main(int argc, char** argv) {
-	return 0;
+    int opcion;
+    do {
+        std::cout << "Seleccione un usuario:" << std::endl;
+        std::cout << "1. Docente" << std::endl;
+        std::cout << "2. Estudiante" << std::endl;
+        std::cout << "0. Salir" << std::endl;
+        std::cin >> opcion;
+
+        switch (opcion) {
+            case 1:
+                menu.mostrarMenuDocente();
+                break;
+            case 2:
+                menu.mostrarMenuEstudiante();
+                break;
+            case 0:
+                std::cout << "Saliendo..." << std::endl;
+                break;
+            default:
+                std::cout << "Opción no válida." << std::endl;
+        }
+    } while (opcion != 0);
+
+    GestorArchivos::guardarNotas("notas.txt", notas);
+
+    return 0;
 }
