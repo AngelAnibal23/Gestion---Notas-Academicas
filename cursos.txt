@@ -1,0 +1,30 @@
+I101 Introduccion a la Programacion
+I102 Algoritmos y Estructuras de Datos
+I201 Programacion Orientada a Objetos
+I202 Bases de Datos
+I203 Redes de Computadoras
+I204 Sistemas Operativos
+I301 Diseño de Software
+I302 Inteligencia Artificial
+I303 Desarrollo de Aplicaciones Web
+I304 Seguridad Informática
+I305 Ciencia de Datos
+I306 Mineria de Datos
+I401 Programacion Avanzada
+I402 Arquitectura de Computadoras
+I403 Administracion de Proyectos de Software
+I404 Ingenieria de Requisitos
+I405 Computacion en la Nube
+I406 Machine Learning
+I501 Desarrollo de Videojuegos
+I502 Programacion Paralela y Distribuida
+I503 Big Data
+I504 Ciberseguridad Avanzada
+I505 Vision por Computadora
+I506 Robotica y Automatizacion
+I601 Desarrollo Movil
+I602 Sistemas Embebidos
+I603 Realidad Aumentada y Virtual
+I604 Blockchain y Criptomonedas
+I605 Metodos Formales
+I606 Computacion Cuantica
