@@ -22,3 +22,11 @@ void Curso::setNombre(const std::string& nombre) {
 void Curso::setDocenteId(const std::string& docenteId) {
     this->docenteId = docenteId;
 }
+
+void Curso::agregarEstudiante(const Estudiante& estudiante) {
+    estudiantes.push_back(estudiante);
+}
+
+const std::vector<Estudiante>& Curso::getEstudiantes() const {
+    return estudiantes;
+}

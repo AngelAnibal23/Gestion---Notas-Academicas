@@ -1,30 +1,10 @@
-2024-385921 María del Carmen López García
-2024-156739 Juan José Pérez Rodríguez
-2024-923851 Lucía Isabella Sánchez Martínez
-2024-472918 David Alejandro Ruiz Gómez
-2024-635027 Ana María Hernández Fernández
-2024-719453 Miguel Ángel Moreno Herrera
-2024-582614 Sofía Isabel González López
-2024-398175 Martín Nicolás Silva Castro
-2024-246589 Laura Sofía Romero Navarro
-2024-017346 Alejandro David Alonso Guzmán
-2024-789456 Sofía Valentina Ruiz Díaz
-2024-123457 Martín Nicolás Pérez Gómez
-2024-876543 Lucía Isabella Hernández Sánchez
-2024-987654 David Alejandro Moreno García
-2024-234567 Ana María López Martínez
-2024-345678 Miguel Ángel González Rodríguez
-2024-456789 Laura Sofía Silva Castro
-2024-567890 Alejandro David Romero Navarro
-2024-678901 María del Carmen Alonso Guzmán
-2024-098765 Juan José Fernández Álvarez
-2024-987654 Emma Victoria Martínez López
-2024-876543 Ethan Samuel García Pérez
-2024-765432 Olivia Luna Sánchez Martínez
-2024-654321 Noah Gabriel Hernández García
-2024-543210 Mateo Santiago Moreno Rodríguez
-2024-432109 Lucas Daniel González López
-2024-321098 Camila Alejandra Silva Castro
-2024-210987 Diego Andrés Romero Navarro
-2024-109876 Sofía Isabella Alonso Guzmán
-2024-098765 Martín Nicolás Fernández Álvarez
+2024-385921,María del Carmen López García,Ingeniería de Software
+2024-156739,Juan José Pérez Rodríguez,Bases de Datos
+2024-923851,Lucía Isabella Sánchez Martínez,Redes de Computadoras
+2024-472918,David Alejandro Ruiz Gómez,Inteligencia Artificial
+2024-635027,Ana María Hernández Fernández,Seguridad Informática
+2024-719453,Miguel Ángel Moreno Herrera,Ciencia de Datos
+2024-582614,Sofía Isabel González López,Desarrollo de Aplicaciones Web
+2024-398175,Martín Nicolás Silva Castro,Programación Avanzada
+2024-246589,Laura Sofía Romero Navarro,Arquitectura de Computadoras
+2024-017346,Alejandro David Alonso Guzmán,Administración de Proyectos de Software
