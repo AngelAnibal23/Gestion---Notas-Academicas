@@ -12,7 +12,10 @@ int main() {
     std::vector<Estudiante> estudiantes = GestorArchivos::cargarEstudiantes("estudiantes.txt");
     std::vector<Curso> cursos = GestorArchivos::cargarCursos("cursos.txt");
     std::vector<Nota> notas = GestorArchivos::cargarNotas("notas.txt");
-	//this is the test
+
+    // Cargar inscripciones de estudiantes en cursos
+    GestorArchivos::cargarInscripciones("inscripciones.txt", cursos, estudiantes);
+
     Menu menu(docentes, estudiantes, cursos, notas);
 
     int opcion;
@@ -34,7 +37,7 @@ int main() {
                 std::cout << "Saliendo..." << std::endl;
                 break;
             default:
-                std::cout << "Opción no válida." << std::endl;
+                std::cout << "Opcion no valida." << std::endl;
         }
     } while (opcion != 0);
 

@@ -5,7 +5,7 @@
 #include <sstream>
 #include <iomanip>
 
-Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, const std::vector<Curso>& cursos, std::vector<Nota>& notas)
+Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 void Menu::mostrarMenuDocente() {
@@ -38,7 +38,7 @@ void Menu::mostrarMenuDocente() {
 
         switch (opcion) {
             case 1:
-                ingresarNotas();
+                ingresarNotas(docenteId);
                 break;
             case 2:
                 mostrarNotas();
@@ -108,19 +108,33 @@ void Menu::mostrarContenidoArchivoEstudiantes() {
     file.close();
 }
 
-void Menu::ingresarNotas() {
+void Menu::ingresarNotas(const std::string& docenteId) {
     system("cls");
-    std::string estudianteId, cursoId;
-    double nota1, nota2, nota3;
+    std::string cursoId;
+    std::cout << "Ingrese el ID del curso: ";
+    std::cin >> cursoId;
 
-    std::cout << "Lista de estudiantes disponibles:" << std::endl;
-    std::cout << std::endl; 
-    mostrarContenidoArchivoEstudiantes();
+    // Buscar el curso por ID
+    auto cursoIt = std::find_if(cursos.begin(), cursos.end(), [cursoId](const Curso& curso) {
+        return curso.getId() == cursoId;
+    });
+
+    if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
+        std::cout << "Curso no encontrado o no asignado a este docente." << std::endl;
+        system("PAUSE");
+        return;
+    }
+
+    std::cout << "Lista de estudiantes inscritos en el curso " << cursoId << ":" << std::endl;
+    for (const auto& estudiante : cursoIt->getEstudiantes()) {
+        std::cout << estudiante.getId() << " " << estudiante.getNombre() << std::endl;
+    }
+
+    std::string estudianteId;
+    double nota1, nota2, nota3;
 
     std::cout << "Ingrese el ID del estudiante: ";
     std::cin >> estudianteId;
-    std::cout << "Ingrese el ID del curso: ";
-    std::cin >> cursoId;
     std::cout << "Ingrese la nota 1: ";
     std::cin >> nota1;
     std::cout << "Ingrese la nota 2: ";

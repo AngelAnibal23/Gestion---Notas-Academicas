@@ -1,4 +1,3 @@
-
 #ifndef GESTORARCHIVOS_H
 #define GESTORARCHIVOS_H
 
@@ -16,6 +15,7 @@ public:
     static std::vector<Curso> cargarCursos(const std::string& archivo);
     static std::vector<Nota> cargarNotas(const std::string& archivo);
     static void guardarNotas(const std::string& archivo, const std::vector<Nota>& notas);
+    static void cargarInscripciones(const std::string& archivo, std::vector<Curso>& cursos, const std::vector<Estudiante>& estudiantes);
 };
 
 #endif // GESTORARCHIVOS_H

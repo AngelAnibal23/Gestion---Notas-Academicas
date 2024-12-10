@@ -1,30 +1,18 @@
-I101 Introduccion a la Programacion
-I102 Algoritmos y Estructuras de Datos
-I201 Programacion Orientada a Objetos
-I202 Bases de Datos
-I203 Redes de Computadoras
-I204 Sistemas Operativos
-I301 Diseño de Software
-I302 Inteligencia Artificial
-I303 Desarrollo de Aplicaciones Web
-I304 Seguridad Informática
-I305 Ciencia de Datos
-I306 Mineria de Datos
-I401 Programacion Avanzada
-I402 Arquitectura de Computadoras
-I403 Administracion de Proyectos de Software
-I404 Ingenieria de Requisitos
-I405 Computacion en la Nube
-I406 Machine Learning
-I501 Desarrollo de Videojuegos
-I502 Programacion Paralela y Distribuida
-I503 Big Data
-I504 Ciberseguridad Avanzada
-I505 Vision por Computadora
-I506 Robotica y Automatizacion
-I601 Desarrollo Movil
-I602 Sistemas Embebidos
-I603 Realidad Aumentada y Virtual
-I604 Blockchain y Criptomonedas
-I605 Metodos Formales
-I606 Computacion Cuantica
+I101,Introducción a la Programación,2024-385921
+I102,Algoritmos y Estructuras de Datos,2024-385921
+I201,Programación Orientada a Objetos,2024-156739
+I202,Bases de Datos,2024-156739
+I203,Redes de Computadoras,2024-923851
+I204,Sistemas Operativos,2024-923851
+I301,Diseño de Software,2024-472918
+I302,Inteligencia Artificial,2024-472918
+I303,Desarrollo de Aplicaciones Web,2024-582614
+I304,Seguridad Informática,2024-635027
+I305,Ciencia de Datos,2024-719453
+I306,Minería de Datos,2024-719453
+I401,Programación Avanzada,2024-398175
+I402,Arquitectura de Computadoras,2024-246589
+I403,Administración de Proyectos de Software,2024-017346
+I404,Ingeniería de Requisitos,2024-017346
+I405,Computación en la Nube,2024-398175
+I406,Machine Learning,2024-472918

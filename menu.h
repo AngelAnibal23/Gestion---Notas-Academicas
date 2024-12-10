@@ -9,20 +9,20 @@
 
 class Menu {
 public:
-    Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, const std::vector<Curso>& cursos, std::vector<Nota>& notas);
+    Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas);
     void mostrarMenuDocente();
     void mostrarMenuEstudiante();
-    void ingresarNotas();
-    void mostrarNotas(); 
-    void verNotasEstudiante(const std::string&); 
+    void ingresarNotas(const std::string&);
+    void mostrarNotas();
+    void verNotasEstudiante(const std::string& estudianteId);
 
 private:
     void mostrarListaEstudiantes();
-    void mostrarContenidoArchivoEstudiantes();  // Declaración de la función
+    void mostrarContenidoArchivoEstudiantes();
 
     std::vector<Docente> docentes;
     std::vector<Estudiante> estudiantes;
-    std::vector<Curso> cursos;
+    std::vector<Curso>& cursos;
     std::vector<Nota>& notas;
 };
 
