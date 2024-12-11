@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <functional>
 
+using namespace std; 
+
 // Constructor
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
@@ -36,9 +38,9 @@ typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, 
 void Menu::mostrarMenuDocente() {
    
     int opcion;
-    std::string docenteId;
-    std::cout << "Ingrese su ID de docente: ";
-    std::cin >> docenteId;
+    string docenteId;
+    cout << "Ingrese su ID de docente: ";
+    cin >> docenteId;
 
     // Convertir la lambda a std::function
     std::function<std::string(const Docente&)> getIdFunc = [](const Docente& docente) {
