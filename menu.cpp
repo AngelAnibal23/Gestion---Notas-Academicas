@@ -9,12 +9,12 @@
 using namespace std; 
 
 // Constructor
-Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas)
+Menu::Menu(const vector<Docente>& docentes, const vector<Estudiante>& estudiantes, vector<Curso>& cursos, vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
 // Función de búsqueda binaria manual
 template <typename T>
-typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, const std::string& id, std::function<std::string(const T&)> getIdFunc) {
+typename vector<T>::const_iterator binarySearch(const  vector<T>& vec, const  string& id,  function< string(const T&)> getIdFunc) {
     int left = 0;
     int right = vec.size() - 1;
 
@@ -22,7 +22,7 @@ typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, 
         int mid = left + (right - left) / 2;
 
         // Comparar el ID del elemento en el medio con el ID buscado
-        std::string midId = getIdFunc(vec[mid]);
+        string midId = getIdFunc(vec[mid]);
         if (midId == id) {
             return vec.begin() + mid; // Elemento encontrado
         } else if (midId < id) {
@@ -37,18 +37,36 @@ typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, 
 
 // Función para ordenar un vector por el campo ID
 template <typename T>
-void ordenarPorId(std::vector<T>& vec, std::function<std::string(const T&)> getIdFunc) {
-    std::sort(vec.begin(), vec.end(), [&getIdFunc](const T& a, const T& b) {
+void ordenarPorId( vector<T>& vec, function< string(const T&)> getIdFunc) {
+    sort(vec.begin(), vec.end(), [&getIdFunc](const T& a, const T& b) {
         return getIdFunc(a) < getIdFunc(b);
     });
 }
 
+
+void shellSort( vector<Nota>& notas) {
+    int n = notas.size();
+
+    // Inicio con un gap grande y luego lo reduzco
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        // Realizo un ordenamiento por inserción para el gap actual
+        for (int i = gap; i < n; i++) {
+            Nota temp = notas[i];
+            int j;
+            for (j = i; j >= gap && notas[j - gap].calcularPromedio() < temp.calcularPromedio(); j -= gap) {
+                notas[j] = notas[j - gap];
+            }
+            notas[j] = temp;
+        }
+    }
+}
+
 // Función para mostrar los cursos disponibles del docente
-void Menu::mostrarCursosDisponibles(const std::string& docenteId) {
-    std::cout << "Cursos disponibles para el docente con ID: " << docenteId << std::endl;
-    std::cout << "---------------------------------------------------------" << std::endl;
-    std::cout << std::left << std::setw(10) << "ID" << std::setw(40) << "Nombre del Curso" << std::endl;
-    std::cout << "---------------------------------------------------------" << std::endl;
+void Menu::mostrarCursosDisponibles(const string& docenteId) {
+    cout << "Cursos disponibles para el docente con ID: " << docenteId <<  endl;
+    cout << "---------------------------------------------------------" <<  endl;
+    cout << left << setw(10) << "ID" << setw(40) << "Nombre del Curso" << endl;
+    cout << "---------------------------------------------------------" << endl;
 
     for (const auto& curso : cursos) {
         if (curso.getDocenteId() == docenteId) {
@@ -56,7 +74,7 @@ void Menu::mostrarCursosDisponibles(const std::string& docenteId) {
         }
     }
 
-    std::cout << "---------------------------------------------------------" << std::endl;
+    cout << "---------------------------------------------------------" << endl;
 }
 
 void Menu::mostrarMenuDocente() {
@@ -68,12 +86,12 @@ void Menu::mostrarMenuDocente() {
 	
 
     // Ordenar el vector de docentes por ID
-    ordenarPorId(docentes, std::function<std::string(const Docente&)>([](const Docente& docente) {
+    ordenarPorId(docentes, function< string(const Docente&)>([](const Docente& docente) {
         return docente.getId();
     }));
 
     // Convertir la lambda a std::function
-    std::function<std::string(const Docente&)> getIdFunc = [](const Docente& docente) {
+    function< string(const Docente&)> getIdFunc = [](const Docente& docente) {
         return docente.getId();
     };
 
@@ -81,13 +99,13 @@ void Menu::mostrarMenuDocente() {
     auto it = binarySearch(docentes, docenteId, getIdFunc);
 
     if (it == docentes.end()) {
-        std::cout << "Docente no encontrado." << std::endl;
+        cout << "Docente no encontrado." << endl;
         system("PAUSE");
         system("cls"); 
         return;
     }
 
-    std::cout << "Bienvenido, " << it->getNombre() << std::endl;
+    cout << "Bienvenido, " << it->getNombre() << endl;
 
     do {
         //system("cls");
@@ -127,18 +145,18 @@ void Menu::mostrarMenuDocente() {
 }
 
 void Menu::mostrarMenuEstudiante() {
-   int opcion;
-    std::string estudianteId;
-    std::cout << "Ingrese su ID de estudiante: ";
-    std::cin >> estudianteId;
+    int opcion;
+	string estudianteId;
+    cout << "Ingrese su ID de estudiante: ";
+    cin >> estudianteId;
 
     // Ordenar el vector de estudiantes por ID
-    ordenarPorId(estudiantes, std::function<std::string(const Estudiante&)>([](const Estudiante& estudiante) {
+    ordenarPorId(estudiantes, function<string(const Estudiante&)>([](const Estudiante& estudiante) {
         return estudiante.getId();
     }));
 
     // Convertir la lambda a std::function
-    std::function<std::string(const Estudiante&)> getIdFunc = [](const Estudiante& estudiante) {
+    function<string(const Estudiante&)> getIdFunc = [](const Estudiante& estudiante) {
         return estudiante.getId();
     };
 
@@ -146,13 +164,13 @@ void Menu::mostrarMenuEstudiante() {
     auto it = binarySearch(estudiantes, estudianteId, getIdFunc);
 
     if (it == estudiantes.end()) {
-        std::cout << "Estudiante no encontrado." << std::endl;
+        cout << "Estudiante no encontrado." << endl;
         system("PAUSE");
         system("cls");
         return;
     }
 
-    std::cout << "Bienvenido, " << it->getNombre() << std::endl;
+    cout << "Bienvenido, " << it->getNombre() << endl;
 
     do {
         //system("cls");
@@ -176,7 +194,7 @@ void Menu::mostrarMenuEstudiante() {
             	system("cls"); 
                 break;
             default:
-                std::cout << "Opcion no valida." << std::endl;
+                cout << "Opcion no valida." << endl;
                 system("PAUSE");
                 system("cls");
         }
@@ -184,34 +202,34 @@ void Menu::mostrarMenuEstudiante() {
 }
 
 void Menu::mostrarContenidoArchivoEstudiantes() {
-    std::ifstream file("estudiantes.txt");
+    ifstream file("estudiantes.txt");
     if (!file.is_open()) {
-        std::cout << "No se pudo abrir el archivo de estudiantes." << std::endl;
+        cout << "No se pudo abrir el archivo de estudiantes." << endl;
         return;
     }
 
-    std::string line;
-    while (std::getline(file, line)) {
-        std::cout << line << std::endl;
+    string line;
+    while ( getline(file, line)) {
+        cout << line << endl;
     }
     file.close();
 }
 
-void Menu::ingresarNotas(const std::string& docenteId) {
+void Menu::ingresarNotas(const string& docenteId) {
     system("cls");
     
     mostrarCursosDisponibles(docenteId);
-    std::string cursoId;
-    std::cout << "Ingrese el ID del curso: ";
-    std::cin >> cursoId;
+    string cursoId;
+    cout << "Ingrese el ID del curso: ";
+    cin >> cursoId;
 
     // Ordenar el vector de cursos por ID
-    ordenarPorId(cursos, std::function<std::string(const Curso&)>([](const Curso& curso) {
+    ordenarPorId(cursos, function<string(const Curso&)>([](const Curso& curso) {
         return curso.getId();
     }));
 
     // Convertir la lambda a std::function
-    std::function<std::string(const Curso&)> getIdFunc = [](const Curso& curso) {
+    function<string(const Curso&)> getIdFunc = [](const Curso& curso) {
         return curso.getId();
     };
 
@@ -219,52 +237,52 @@ void Menu::ingresarNotas(const std::string& docenteId) {
     auto cursoIt = binarySearch(cursos, cursoId, getIdFunc);
 
     if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
-        std::cout << "Curso no encontrado o no asignado a este docente." << std::endl;
+        cout << "Curso no encontrado o no asignado a este docente." << endl;
         system("PAUSE");
         system("cls"); 
         return;
     }
 
     // Obtener la lista de estudiantes inscritos en el curso
-    std::vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
+	vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
 
     // Ordenar los estudiantes inscritos por nombre alfabéticamente
-    std::sort(estudiantesInscritos.begin(), estudiantesInscritos.end(), [](const Estudiante& a, const Estudiante& b) {
+    sort(estudiantesInscritos.begin(), estudiantesInscritos.end(), [](const Estudiante& a, const Estudiante& b) {
         return a.getNombre() < b.getNombre();
     });
 
     // Mostrar la lista de estudiantes inscritos en orden alfabético
-    std::cout << "Lista de estudiantes inscritos en el curso " << cursoId << " (orden alfabetico):" << std::endl;
+    cout << "Lista de estudiantes inscritos en el curso " << cursoId << " (orden alfabetico):" << endl;
     for (const auto& estudiante : estudiantesInscritos) {
-        std::cout << estudiante.getId() << " " << estudiante.getNombre() << std::endl;
+        cout << estudiante.getId() << " " << estudiante.getNombre() << endl;
     }
 
-    std::string estudianteId;
+    string estudianteId;
     double nota1, nota2, nota3;
 
-    std::cout << "Ingrese el ID del estudiante: ";
-    std::cin >> estudianteId;
+    cout << "Ingrese el ID del estudiante: ";
+    cin >> estudianteId;
 
     // Validar que el estudiante existe y está inscrito en el curso
-    auto estudianteIt = std::find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
+    auto estudianteIt = find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
         return estudiante.getId() == estudianteId;
     });
 
     if (estudianteIt == estudiantesInscritos.end()) {
-        std::cout << "Estudiante no encontrado o no inscrito en este curso." << std::endl;
+        cout << "Estudiante no encontrado o no inscrito en este curso." << endl;
         system("PAUSE");
         system("cls"); 
         return;
     }
 
-    std::cout << "Ingrese la nota 1: ";
-    std::cin >> nota1;
-    std::cout << "Ingrese la nota 2: ";
-    std::cin >> nota2;
-    std::cout << "Ingrese la nota 3: ";
-    std::cin >> nota3;
+    cout << "Ingrese la nota de desempeno: ";
+    cin >> nota1;
+    cout << "Ingrese la nota conocimiento: ";
+	cin >> nota2;
+    cout << "Ingrese la nota producto: ";
+    cin >> nota3;
 
-    auto it = std::find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
+    auto it =  find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
         return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId;
     });
 
@@ -276,52 +294,70 @@ void Menu::ingresarNotas(const std::string& docenteId) {
         notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3);
     }
 
-    std::cout << "Notas ingresadas correctamente." << std::endl;
+    cout << "Notas ingresadas correctamente." << endl;
     system("PAUSE");
     system("cls"); 
 }
 
 void Menu::mostrarNotas() {
     system("cls");
+
+    // Ordenar las notas usando ShellSort
+    shellSort(notas);
+
+    cout << "=========================================================" << endl;
+    cout << "                    NOTAS ORDENADAS                      " << endl;
+    cout << "=========================================================" << endl;
+    cout << left << setw(15) << "Estudiante ID"
+              << setw(15) << "Curso ID"
+              << setw(15) << "Nota 1"
+              << setw(15) << "Nota 2"
+              << setw(15) << "Nota 3"
+              << setw(15) << "Promedio" << endl;
+    cout << "---------------------------------------------------------" << endl;
+
     for (const auto& nota : notas) {
-        std::cout << "Estudiante ID: " << nota.getEstudianteId()
-                  << ", Curso ID: " << nota.getCursoId()
-                  << ", Nota 1: " << nota.getNota1()
-                  << ", Nota 2: " << nota.getNota2()
-                  << ", Nota 3: " << nota.getNota3()
-                  << ", Promedio: " << nota.calcularPromedio() << std::endl;
+        cout << left << setw(15) << nota.getEstudianteId()
+                  << setw(15) << nota.getCursoId()
+                  << setw(15) << nota.getNota1()
+                  << setw(15) << nota.getNota2()
+                  << setw(15) << nota.getNota3()
+                  << setw(15) << nota.calcularPromedio() << endl;
     }
+
+    cout << "=========================================================" << endl;
 }
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
     system("cls");
-    std::cout << "=========================================================" << std::endl;
-    std::cout << "                    NOTAS DEL ESTUDIANTE                 " << std::endl;
-    std::cout << "=========================================================" << std::endl;
-    std::cout << std::left << std::setw(10) << "Curso"
-              << std::setw(10) << "Nota Conocimiento"
-              << std::setw(10) << "Nota Producto"
-              << std::setw(10) << "Nota Desempeno"
-              << std::setw(10) << "Promedio" << std::endl;
-    std::cout << "---------------------------------------------------------" << std::endl;
+    shellSort(notas);
+    cout << "=========================================================" << endl;
+    cout << "                    NOTAS DEL ESTUDIANTE                 " << endl;
+    cout << "=========================================================" << endl;
+    cout << left << std::setw(10) << "Curso"
+              << setw(10) << "Nota CN"
+              << setw(10) << "Nota PR"
+              << setw(10) << "Nota DP"
+              << setw(10) << "Promedio" << endl;
+    cout << "---------------------------------------------------------" << endl;
 
     bool encontrado = false;
 
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
             encontrado = true;
-            std::cout << std::left << std::setw(10) << nota.getCursoId()
-                      << std::setw(10) << nota.getNota1()
-                      << std::setw(10) << nota.getNota2()
-                      << std::setw(10) << nota.getNota3()
-                      << std::setw(10) << nota.calcularPromedio() << std::endl;
+            cout << left << setw(10) << nota.getCursoId()
+                      << setw(10) << nota.getNota1()
+                      << setw(10) << nota.getNota2()
+                      << setw(10) << nota.getNota3()
+                      << setw(10) << nota.calcularPromedio() << endl;
         }
     }
 
     if (!encontrado) {
-        std::cout << "No se encontraron notas para el estudiante con ID: "
-                  << estudianteId << std::endl;
+        cout << "No se encontraron notas para el estudiante con ID: "
+                  << estudianteId << endl;
     }
 
-    std::cout << "=========================================================" << std::endl;
+    cout << "=========================================================" << endl;
 }
