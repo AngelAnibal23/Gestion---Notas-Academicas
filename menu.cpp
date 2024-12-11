@@ -4,7 +4,9 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
+#include <functional>
 
+// Constructor
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
@@ -17,30 +19,34 @@ typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, 
     while (left <= right) {
         int mid = left + (right - left) / 2;
 
-        
+        // Comparar el ID del elemento en el medio con el ID buscado
         std::string midId = getIdFunc(vec[mid]);
         if (midId == id) {
-            return vec.begin() + mid; 
+            return vec.begin() + mid; // Elemento encontrado
         } else if (midId < id) {
-            left = mid + 1; 
+            left = mid + 1; // Buscar en la mitad derecha
         } else {
-            right = mid - 1; 
+            right = mid - 1; // Buscar en la mitad izquierda
         }
     }
 
-    return vec.end(); 
+    return vec.end(); // Elemento no encontrado
 }
 
 void Menu::mostrarMenuDocente() {
+   
     int opcion;
     std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
 
-    // Usar búsqueda binaria manual
-    auto it = binarySearch(docentes, docenteId, [](const Docente& docente) {
+    // Convertir la lambda a std::function
+    std::function<std::string(const Docente&)> getIdFunc = [](const Docente& docente) {
         return docente.getId();
-    });
+    };
+
+    // Usar búsqueda binaria manual
+    auto it = binarySearch(docentes, docenteId, getIdFunc);
 
     if (it == docentes.end()) {
         std::cout << "Docente no encontrado." << std::endl;
@@ -74,18 +80,22 @@ void Menu::mostrarMenuDocente() {
                 system("PAUSE");
         }
     } while (opcion != 0);
+
 }
 
 void Menu::mostrarMenuEstudiante() {
-    int opcion;
+   int opcion;
     std::string estudianteId;
     std::cout << "Ingrese su ID de estudiante: ";
     std::cin >> estudianteId;
 
-    // Usar búsqueda binaria manual
-    auto it = binarySearch(estudiantes, estudianteId, [](const Estudiante& estudiante) {
+    // Convertir la lambda a std::function
+    std::function<std::string(const Estudiante&)> getIdFunc = [](const Estudiante& estudiante) {
         return estudiante.getId();
-    });
+    };
+
+    // Usar búsqueda binaria manual
+    auto it = binarySearch(estudiantes, estudianteId, getIdFunc);
 
     if (it == estudiantes.end()) {
         std::cout << "Estudiante no encontrado." << std::endl;
@@ -137,10 +147,13 @@ void Menu::ingresarNotas(const std::string& docenteId) {
     std::cout << "Ingrese el ID del curso: ";
     std::cin >> cursoId;
 
-   // Usar búsqueda binaria manual para encontrar el curso
-    auto cursoIt = binarySearch(cursos, cursoId, [](const Curso& curso) {
+    // Convertir la lambda a std::function
+    std::function<std::string(const Curso&)> getIdFunc = [](const Curso& curso) {
         return curso.getId();
-    });
+    };
+
+    // Usar búsqueda binaria manual para encontrar el curso
+    auto cursoIt = binarySearch(cursos, cursoId, getIdFunc);
 
     if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
         std::cout << "Curso no encontrado o no asignado a este docente." << std::endl;
@@ -148,8 +161,17 @@ void Menu::ingresarNotas(const std::string& docenteId) {
         return;
     }
 
-    std::cout << "Lista de estudiantes inscritos en el curso " << cursoId << ":" << std::endl;
-    for (const auto& estudiante : cursoIt->getEstudiantes()) {
+    // Obtener la lista de estudiantes inscritos en el curso
+    std::vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
+
+    // Ordenar los estudiantes inscritos por nombre alfabéticamente
+    std::sort(estudiantesInscritos.begin(), estudiantesInscritos.end(), [](const Estudiante& a, const Estudiante& b) {
+        return a.getNombre() < b.getNombre();
+    });
+
+    // Mostrar la lista de estudiantes inscritos en orden alfabético
+    std::cout << "Lista de estudiantes inscritos en el curso " << cursoId << " (orden alfabético):" << std::endl;
+    for (const auto& estudiante : estudiantesInscritos) {
         std::cout << estudiante.getId() << " " << estudiante.getNombre() << std::endl;
     }
 
