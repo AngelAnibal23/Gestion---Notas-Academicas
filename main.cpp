@@ -22,12 +22,20 @@ int main() {
 
     int opcion;
     do {
-        cout << "Seleccione un usuario:" << endl;
-        cout << "1. Docente" << endl;
-        cout << "2. Estudiante" << endl;
-        cout << "0. Salir" << endl;
-        cin >> opcion;
-
+	
+		cout << "\t\t\t\t\t\t\t__________________ELIGA SU CARGO_________________" << endl;
+    	cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
+    	cout << "\t\t\t\t\t\t\t|\t\t1.- Docente.\t\t\t|" << endl;
+    	cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
+    	cout << "\t\t\t\t\t\t\t|\t\t2.- Estudiante. \t\t|" << endl;
+   		cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
+    	cout << "\t\t\t\t\t\t\t|\t\t0.- Salir.        \t\t|" << endl;
+   		cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
+    	cout << "\t\t\t\t\t\t\t|_______________________________________________|" << endl;
+    	cout << endl << "\t\t\t\t\t\t\t\t \tIngrese la respuesta: ";
+    	cin >> opcion;
+		system("cls"); 
+	
         switch (opcion) {
             case 1:
                 menu.mostrarMenuDocente();
