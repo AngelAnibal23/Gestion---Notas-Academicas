@@ -3,19 +3,23 @@
 
 #include <string>
 
+using namespace std;
+
 class Docente {
-public:
-    Docente(const std::string& id, const std::string& nombre, const std::string& especialidad);
-    std::string getId() const;
-    std::string getNombre() const;
-    std::string getEspecialidad() const;
-    void setNombre(const std::string& nombre);
-    void setEspecialidad(const std::string& especialidad);
 
 private:
-    std::string id;
-    std::string nombre;
-    std::string especialidad;
+    string id;
+    string nombre;
+    string especialidad;
+	
+public:
+    Docente(const string& id, const string& nombre, const string& especialidad);
+    string getId() const;
+    string getNombre() const;
+    string getEspecialidad() const;
+    void setNombre(const string& nombre);
+    void setEspecialidad(const string& especialidad);
+
 };
 
 #endif // DOCENTE_H

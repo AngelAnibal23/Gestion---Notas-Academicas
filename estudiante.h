@@ -3,16 +3,18 @@
 
 #include <string>
 
-class Estudiante {
-public:
-    Estudiante(const std::string& id, const std::string& nombre);
-    std::string getId() const;
-    std::string getNombre() const;
-    void setNombre(const std::string& nombre);
+using namespace std;
 
+class Estudiante {
 private:
-    std::string id;
-    std::string nombre;
+    string id;
+    string nombre;
+public:
+    Estudiante(const string& id, const string& nombre);
+    string getId() const;
+    string getNombre() const;
+    void setNombre(const string& nombre);
+
 };
 
 #endif // ESTUDIANTE_H
