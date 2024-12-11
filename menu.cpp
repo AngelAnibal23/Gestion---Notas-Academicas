@@ -244,6 +244,19 @@ void Menu::ingresarNotas(const std::string& docenteId) {
 
     std::cout << "Ingrese el ID del estudiante: ";
     std::cin >> estudianteId;
+
+    // Validar que el estudiante existe y está inscrito en el curso
+    auto estudianteIt = std::find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
+        return estudiante.getId() == estudianteId;
+    });
+
+    if (estudianteIt == estudiantesInscritos.end()) {
+        std::cout << "Estudiante no encontrado o no inscrito en este curso." << std::endl;
+        system("PAUSE");
+        system("cls"); 
+        return;
+    }
+
     std::cout << "Ingrese la nota 1: ";
     std::cin >> nota1;
     std::cout << "Ingrese la nota 2: ";
