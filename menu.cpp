@@ -35,12 +35,25 @@ typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, 
     return vec.end(); // Elemento no encontrado
 }
 
+// Función para ordenar un vector por el campo ID
+template <typename T>
+void ordenarPorId(std::vector<T>& vec, std::function<std::string(const T&)> getIdFunc) {
+    std::sort(vec.begin(), vec.end(), [&getIdFunc](const T& a, const T& b) {
+        return getIdFunc(a) < getIdFunc(b);
+    });
+}
+
 void Menu::mostrarMenuDocente() {
    
     int opcion;
     string docenteId;
     cout << "Ingrese su ID de docente: ";
     cin >> docenteId;
+
+    // Ordenar el vector de docentes por ID
+    ordenarPorId(docentes, std::function<std::string(const Docente&)>([](const Docente& docente) {
+        return docente.getId();
+    }));
 
     // Convertir la lambda a std::function
     std::function<std::string(const Docente&)> getIdFunc = [](const Docente& docente) {
@@ -91,6 +104,11 @@ void Menu::mostrarMenuEstudiante() {
     std::cout << "Ingrese su ID de estudiante: ";
     std::cin >> estudianteId;
 
+    // Ordenar el vector de estudiantes por ID
+    ordenarPorId(estudiantes, std::function<std::string(const Estudiante&)>([](const Estudiante& estudiante) {
+        return estudiante.getId();
+    }));
+
     // Convertir la lambda a std::function
     std::function<std::string(const Estudiante&)> getIdFunc = [](const Estudiante& estudiante) {
         return estudiante.getId();
@@ -108,7 +126,7 @@ void Menu::mostrarMenuEstudiante() {
     std::cout << "Bienvenido, " << it->getNombre() << std::endl;
 
     do {
-        system("cls");
+        //system("cls");
         std::cout << "===== MENU ESTUDIANTE =====" << std::endl;
         std::cout << "1. Ver notas" << std::endl;
         std::cout << "0. Volver" << std::endl;
@@ -148,6 +166,11 @@ void Menu::ingresarNotas(const std::string& docenteId) {
     std::string cursoId;
     std::cout << "Ingrese el ID del curso: ";
     std::cin >> cursoId;
+
+    // Ordenar el vector de cursos por ID
+    ordenarPorId(cursos, std::function<std::string(const Curso&)>([](const Curso& curso) {
+        return curso.getId();
+    }));
 
     // Convertir la lambda a std::function
     std::function<std::string(const Curso&)> getIdFunc = [](const Curso& curso) {
