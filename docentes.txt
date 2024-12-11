@@ -1,10 +1,10 @@
-2024-385921,María del Carmen López García,Ingeniería de Software
-2024-156739,Juan José Pérez Rodríguez,Bases de Datos
-2024-923851,Lucía Isabella Sánchez Martínez,Redes de Computadoras
-2024-472918,David Alejandro Ruiz Gómez,Inteligencia Artificial
-2024-635027,Ana María Hernández Fernández,Seguridad Informática
-2024-719453,Miguel Ángel Moreno Herrera,Ciencia de Datos
-2024-582614,Sofía Isabel González López,Desarrollo de Aplicaciones Web
-2024-398175,Martín Nicolás Silva Castro,Programación Avanzada
-2024-246589,Laura Sofía Romero Navarro,Arquitectura de Computadoras
-2024-017346,Alejandro David Alonso Guzmán,Administración de Proyectos de Software
+2024-385921,Maria del Carmen Lopez Garcia,Ingenieria de Software
+2024-156739,Juan Jose Perez Rodriguez,Bases de Datos
+2024-923851,Lucia Isabella Sanchez Martinez,Redes de Computadoras
+2024-472918,David Alejandro Ruiz Gomez,Inteligencia Artificial
+2024-635027,Ana Maria Hernandez Fernandez,Seguridad Informatica
+2024-719453,Miguel Angel Moreno Herrera,Ciencia de Datos
+2024-582614,Sofia Isabel Gonzalez Lopez,Desarrollo de Aplicaciones Web
+2024-398175,Martin Nicolas Silva Castro,Programacion Avanzada
+2024-246589,Laura Sofia Romero Navarro,Arquitectura de Computadoras
+2024-017346,Alejandro David Alonso Guzman,Administracion de Proyectos de Software
