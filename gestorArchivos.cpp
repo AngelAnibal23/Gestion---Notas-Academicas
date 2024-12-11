@@ -1,4 +1,5 @@
 #include "gestorArchivos.h"
+#include "usuario.h"
 #include <fstream>
 #include <sstream>
 #include <iostream> // Para depuración
@@ -12,9 +13,7 @@ std::vector<Docente> GestorArchivos::cargarDocentes(const std::string& archivo) 
         std::istringstream iss(line);
         std::string id, nombre, especialidad;
         if (std::getline(iss, id, ',') && std::getline(iss, nombre, ',') && std::getline(iss, especialidad)) {
-            docentes.emplace_back(id, nombre, especialidad);
-        } else {
-            std::cerr << "Error al leer la linea: " << line << std::endl; // Depuración
+            docentes.emplace_back(id, nombre, especialidad); // Usar el constructor de Docente
         }
     }
     return docentes;
@@ -28,9 +27,7 @@ std::vector<Estudiante> GestorArchivos::cargarEstudiantes(const std::string& arc
         std::istringstream iss(line);
         std::string id, nombre;
         if (std::getline(iss, id, ',') && std::getline(iss, nombre)) {
-            estudiantes.emplace_back(id, nombre);
-        } else {
-            std::cerr << "Error al leer la linea: " << line << std::endl; // Depuración
+            estudiantes.emplace_back(id, nombre); // Usar el constructor de Estudiante
         }
     }
     return estudiantes;

@@ -5,6 +5,9 @@
 #include <sstream>
 #include <iomanip>
 #include <functional>
+#include "usuario.h" 
+#include "docente.h"
+#include "estudiante.h"
 
 using namespace std; 
 
@@ -186,7 +189,8 @@ void Menu::mostrarMenuEstudiante() {
 
         switch (opcion) {
             case 1:
-                verNotasEstudiante(estudianteId);
+               // verNotasEstudiante(estudianteId);
+                mostrarNotas();  
                 system("PAUSE");
                 system("cls");
                 break;
@@ -244,7 +248,7 @@ void Menu::ingresarNotas(const string& docenteId) {
     }
 
     // Obtener la lista de estudiantes inscritos en el curso
-	vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
+    vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
 
     // Ordenar los estudiantes inscritos por nombre alfabéticamente
     sort(estudiantesInscritos.begin(), estudiantesInscritos.end(), [](const Estudiante& a, const Estudiante& b) {
@@ -260,41 +264,50 @@ void Menu::ingresarNotas(const string& docenteId) {
     string estudianteId;
     double nota1, nota2, nota3;
 
-    cout << "Ingrese el ID del estudiante: ";
-    cin >> estudianteId;
+    while (true) {
+        cout << "Ingrese el ID del estudiante (o 'X' para salir): ";
+        cin >> estudianteId;
 
-    // Validar que el estudiante existe y está inscrito en el curso
-    auto estudianteIt = find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
-        return estudiante.getId() == estudianteId;
-    });
+        // Verificar si el docente quiere salir
+        if (estudianteId == "X" || estudianteId == "x") {
+            break;
+        }
 
-    if (estudianteIt == estudiantesInscritos.end()) {
-        cout << "Estudiante no encontrado o no inscrito en este curso." << endl;
-        system("PAUSE");
-        system("cls"); 
-        return;
+        // Validar que el estudiante existe y está inscrito en el curso
+        auto estudianteIt = find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
+            return estudiante.getId() == estudianteId;
+        });
+
+        if (estudianteIt == estudiantesInscritos.end()) {
+            cout << "Estudiante no encontrado o no inscrito en este curso." << endl;
+            system("PAUSE");
+            system("cls"); 
+            continue; // Volver a solicitar el ID del estudiante
+        }
+
+        cout << "Ingrese la nota de desempeno: ";
+        cin >> nota1;
+        cout << "Ingrese la nota conocimiento: ";
+        cin >> nota2;
+        cout << "Ingrese la nota producto: ";
+        cin >> nota3;
+
+        auto it = find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
+            return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId;
+        });
+
+        if (it != notas.end()) {
+            it->setNota1(nota1);
+            it->setNota2(nota2);
+            it->setNota3(nota3);
+        } else {
+            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3);
+        }
+
+        cout << "Notas ingresadas correctamente." << endl;
     }
 
-    cout << "Ingrese la nota de desempeno: ";
-    cin >> nota1;
-    cout << "Ingrese la nota conocimiento: ";
-	cin >> nota2;
-    cout << "Ingrese la nota producto: ";
-    cin >> nota3;
-
-    auto it =  find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
-        return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId;
-    });
-
-    if (it != notas.end()) {
-        it->setNota1(nota1);
-        it->setNota2(nota2);
-        it->setNota3(nota3);
-    } else {
-        notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3);
-    }
-
-    cout << "Notas ingresadas correctamente." << endl;
+    cout << "Ha salido del modo de ingreso de notas." << endl;
     system("PAUSE");
     system("cls"); 
 }
@@ -327,6 +340,7 @@ void Menu::mostrarNotas() {
 
     cout << "=========================================================" << endl;
 }
+
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
     system("cls");
