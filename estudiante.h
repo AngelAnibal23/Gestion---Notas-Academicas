@@ -1,20 +1,11 @@
 #ifndef ESTUDIANTE_H
 #define ESTUDIANTE_H
 
-#include <string>
+#include "usuario.h"
 
-using namespace std;
-
-class Estudiante {
-private:
-    string id;
-    string nombre;
+class Estudiante : public Usuario {
 public:
     Estudiante(const string& id, const string& nombre);
-    string getId() const;
-    string getNombre() const;
-    void setNombre(const string& nombre);
-
 };
 
 #endif // ESTUDIANTE_H
