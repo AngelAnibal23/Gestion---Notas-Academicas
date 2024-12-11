@@ -8,15 +8,38 @@
 Menu::Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas)
     : docentes(docentes), estudiantes(estudiantes), cursos(cursos), notas(notas) {}
 
+// Función de búsqueda binaria manual
+template <typename T>
+typename std::vector<T>::const_iterator binarySearch(const std::vector<T>& vec, const std::string& id, std::function<std::string(const T&)> getIdFunc) {
+    int left = 0;
+    int right = vec.size() - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        
+        std::string midId = getIdFunc(vec[mid]);
+        if (midId == id) {
+            return vec.begin() + mid; 
+        } else if (midId < id) {
+            left = mid + 1; 
+        } else {
+            right = mid - 1; 
+        }
+    }
+
+    return vec.end(); 
+}
+
 void Menu::mostrarMenuDocente() {
     int opcion;
     std::string docenteId;
     std::cout << "Ingrese su ID de docente: ";
     std::cin >> docenteId;
 
-    // Buscar el docente por ID
-    auto it = std::find_if(docentes.begin(), docentes.end(), [docenteId](const Docente& docente) {
-        return docente.getId() == docenteId;
+    // Usar búsqueda binaria manual
+    auto it = binarySearch(docentes, docenteId, [](const Docente& docente) {
+        return docente.getId();
     });
 
     if (it == docentes.end()) {
@@ -59,9 +82,9 @@ void Menu::mostrarMenuEstudiante() {
     std::cout << "Ingrese su ID de estudiante: ";
     std::cin >> estudianteId;
 
-    // Buscar el estudiante por ID
-    auto it = std::find_if(estudiantes.begin(), estudiantes.end(), [estudianteId](const Estudiante& estudiante) {
-        return estudiante.getId() == estudianteId;
+    // Usar búsqueda binaria manual
+    auto it = binarySearch(estudiantes, estudianteId, [](const Estudiante& estudiante) {
+        return estudiante.getId();
     });
 
     if (it == estudiantes.end()) {
@@ -114,9 +137,9 @@ void Menu::ingresarNotas(const std::string& docenteId) {
     std::cout << "Ingrese el ID del curso: ";
     std::cin >> cursoId;
 
-    // Buscar el curso por ID
-    auto cursoIt = std::find_if(cursos.begin(), cursos.end(), [cursoId](const Curso& curso) {
-        return curso.getId() == cursoId;
+   // Usar búsqueda binaria manual para encontrar el curso
+    auto cursoIt = binarySearch(cursos, cursoId, [](const Curso& curso) {
+        return curso.getId();
     });
 
     if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
