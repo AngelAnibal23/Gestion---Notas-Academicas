@@ -19,7 +19,7 @@ public:
 private:
     void mostrarListaEstudiantes();
     void mostrarContenidoArchivoEstudiantes();
-
+	void mostrarCursosDisponibles(const std::string&); 
     std::vector<Docente> docentes;
     std::vector<Estudiante> estudiantes;
     std::vector<Curso>& cursos;
