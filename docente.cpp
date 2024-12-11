@@ -1,24 +1,26 @@
 #include "docente.h"
 
-Docente::Docente(const std::string& id, const std::string& nombre, const std::string& especialidad)
+using namespace std;
+
+Docente::Docente(const string& id, const string& nombre, const string& especialidad)
     : id(id), nombre(nombre), especialidad(especialidad) {}
 
-std::string Docente::getId() const {
+string Docente::getId() const {
     return id;
 }
 
-std::string Docente::getNombre() const {
+string Docente::getNombre() const {
     return nombre;
 }
 
-std::string Docente::getEspecialidad() const {
+string Docente::getEspecialidad() const {
     return especialidad;
 }
 
-void Docente::setNombre(const std::string& nombre) {
+void Docente::setNombre(const string& nombre) {
     this->nombre = nombre;
 }
 
-void Docente::setEspecialidad(const std::string& especialidad) {
+void Docente::setEspecialidad(const string& especialidad) {
     this->especialidad = especialidad;
 }

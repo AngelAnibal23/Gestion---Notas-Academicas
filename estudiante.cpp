@@ -1,16 +1,18 @@
 #include "estudiante.h"
 
-Estudiante::Estudiante(const std::string& id, const std::string& nombre)
+using namespace std;
+
+Estudiante::Estudiante(const string& id, const string& nombre)
     : id(id), nombre(nombre) {}
 
-std::string Estudiante::getId() const {
+string Estudiante::getId() const {
     return id;
 }
 
-std::string Estudiante::getNombre() const {
+string Estudiante::getNombre() const {
     return nombre;
 }
 
-void Estudiante::setNombre(const std::string& nombre) {
+void Estudiante::setNombre(const string& nombre) {
     this->nombre = nombre;
 }

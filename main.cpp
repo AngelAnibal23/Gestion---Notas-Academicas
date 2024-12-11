@@ -7,11 +7,13 @@
 #include "gestorArchivos.h"
 #include "menu.h"
 
+using namespace std;
+
 int main() {
-    std::vector<Docente> docentes = GestorArchivos::cargarDocentes("docentes.txt");
-    std::vector<Estudiante> estudiantes = GestorArchivos::cargarEstudiantes("estudiantes.txt");
-    std::vector<Curso> cursos = GestorArchivos::cargarCursos("cursos.txt");
-    std::vector<Nota> notas = GestorArchivos::cargarNotas("notas.txt");
+    vector<Docente> docentes = GestorArchivos::cargarDocentes("docentes.txt");
+    vector<Estudiante> estudiantes = GestorArchivos::cargarEstudiantes("estudiantes.txt");
+    vector<Curso> cursos = GestorArchivos::cargarCursos("cursos.txt");
+    vector<Nota> notas = GestorArchivos::cargarNotas("notas.txt");
 
     // Cargar inscripciones de estudiantes en cursos
     GestorArchivos::cargarInscripciones("inscripciones.txt", cursos, estudiantes);
@@ -20,11 +22,11 @@ int main() {
 
     int opcion;
     do {
-        std::cout << "Seleccione un usuario:" << std::endl;
-        std::cout << "1. Docente" << std::endl;
-        std::cout << "2. Estudiante" << std::endl;
-        std::cout << "0. Salir" << std::endl;
-        std::cin >> opcion;
+        cout << "Seleccione un usuario:" << endl;
+        cout << "1. Docente" << endl;
+        cout << "2. Estudiante" << endl;
+        cout << "0. Salir" << endl;
+        cin >> opcion;
 
         switch (opcion) {
             case 1:
@@ -34,10 +36,10 @@ int main() {
                 menu.mostrarMenuEstudiante();
                 break;
             case 0:
-                std::cout << "Saliendo..." << std::endl;
+                cout << "Saliendo..." << endl;
                 break;
             default:
-                std::cout << "Opcion no valida." << std::endl;
+                cout << "Opcion no valida." << endl;
         }
     } while (opcion != 0);
 
