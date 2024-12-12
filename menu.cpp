@@ -70,27 +70,29 @@ void shellSort( vector<Nota>& notas) {
 
 // Función para mostrar los cursos disponibles del docente
 void Menu::mostrarCursosDisponibles(const string& docenteId) {
-    cout << "Cursos disponibles para el docente con ID: " << docenteId <<  endl;
-    cout << "---------------------------------------------------------" <<  endl;
-    cout << left << setw(10) << "ID" << setw(40) << "Nombre del Curso" << endl;
-    cout << "---------------------------------------------------------" << endl;
+    cout << "\t\t\t\tCursos que dicta el docente con ID: " << docenteId <<  endl;
+    cout << "\t\t\t\t---------------------------------------------------------" <<  endl;
+    cout << left << setw(10) << "\t\t\t\tID" << setw(40) << "   Nombre del Curso" << endl;
+    cout << "\t\t\t\t---------------------------------------------------------" << endl;
 
     for (const auto& curso : cursos) {
         if (curso.getDocenteId() == docenteId) {
-            std::cout << std::left << std::setw(10) << curso.getId() << std::setw(40) << curso.getNombre() << std::endl;
+            std::cout << std::left << "\t\t\t\t" << std::setw(10) << curso.getId() << std::setw(40) << curso.getNombre() << std::endl;
         }
     }
 
-    cout << "---------------------------------------------------------" << endl;
+    cout << "\t\t\t\t---------------------------------------------------------" << endl;
+    cout << endl; 
 }
 
 void Menu::mostrarMenuDocente() {
    	
     int opcion;
     string docenteId;
-    cout << "Ingrese su ID de docente: ";
+    
+    cout << "\t\t\t\t\t\t\t\tIngrese su ID de docente: ";
     cin >> docenteId;
-	
+	system("cls");
 
     // Ordenar el vector de docentes por ID
     ordenarPorId(docentes, function< string(const Docente&)>([](const Docente& docente) {
@@ -106,28 +108,30 @@ void Menu::mostrarMenuDocente() {
     auto it = binarySearch(docentes, docenteId, getIdFunc);
 
     if (it == docentes.end()) {
-        cout << "Docente no encontrado." << endl;
+        cout << "\t\t\t\tDocente no encontrado." << endl;
         system("PAUSE");
         system("cls"); 
         return;
     }
 
-    cout << "Bienvenido, " << it->getNombre() << endl;
+    //cout << "Bienvenido, " << it->getNombre() << endl;
 
     do {
-        //system("cls");
-        cout << "\t\t\t\t\t\t\t============ MENU DOCENTE ============" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t                        \t\t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t1.- Ingresar Notas.       \t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t                        \t\t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t2.- Ver notas ingresadas. \t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t                        \t\t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t0.- Volver.               \t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|\t\t                        \t\t|" << endl;
-	    cout << "\t\t\t\t\t\t\t|_____________________________________|" << endl;
-	    cout << endl << "\t\t\t\t\t\t\t\tIngrese la opcion deseada: ";
-	    cin >> opcion;
-
+        //system("cls");       
+        cout << "\t\t\t\t\t\t\t==================MENU DOCENTE==================" << endl;
+        cout << "\t\t\t\t\t\t\t|Bienvenido, " << it->getNombre() << "\t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t1.- Ingresar Notas.       \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t2.- Mostrar Registro de Notas Ingresadas. \t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t0.- Salir.                \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|_______________________________________________|" << endl;
+		cout << endl << "\t\t\t\t\t\t\t\t \tIngrese la respuesta: ";
+		cin >> opcion;
+		system("cls");
+    	
         switch (opcion) {
             case 1:
                 // Mostrar los cursos disponibles del docente
@@ -143,7 +147,7 @@ void Menu::mostrarMenuDocente() {
             	system("cls"); 
                 break;
             default:
-                std::cout << "Opcion no valida." << std::endl;
+                std::cout << "\t\t\t\tOpcion no valida." << std::endl;
                 system("PAUSE");
                 system("cls"); 
         }
@@ -154,9 +158,9 @@ void Menu::mostrarMenuDocente() {
 void Menu::mostrarMenuEstudiante() {
     int opcion;
 	string estudianteId;
-    cout << "Ingrese su ID de estudiante: ";
+    cout << "\t\t\t\tIngrese su ID de estudiante: ";
     cin >> estudianteId;
-
+	system("cls");
     // Ordenar el vector de estudiantes por ID
     ordenarPorId(estudiantes, function<string(const Estudiante&)>([](const Estudiante& estudiante) {
         return estudiante.getId();
@@ -171,25 +175,25 @@ void Menu::mostrarMenuEstudiante() {
     auto it = binarySearch(estudiantes, estudianteId, getIdFunc);
 
     if (it == estudiantes.end()) {
-        cout << "Estudiante no encontrado." << endl;
+         cout << "\t\t\t\t\t\t\t\tIngrese su ID de estudiante: ";
         system("PAUSE");
         system("cls");
         return;
     }
 
-    cout << "Bienvenido, " << it->getNombre() << endl;
-
     do {
         //system("cls");
-        cout << "\t\t\t\t\t\t\t============ MENU ESTUDIANTE ============" << endl;
-    	cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
-    	cout << "\t\t\t\t\t\t\t|\t\t1.- Ver Notas.       \t\t|" << endl;
-   		cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
-    	cout << "\t\t\t\t\t\t\t|\t\t0.- Volver.          \t\t|" << endl;
-    	cout << "\t\t\t\t\t\t\t|\t\t                  \t\t|" << endl;
-    	cout << "\t\t\t\t\t\t\t|_______________________________________|" << endl;
-    	cout << endl << "\t\t\t\t\t\t\t\tIngrese la opcion deseada: ";
-    	cin >> opcion;
+        cout << "\t\t\t\t\t\t\t==================MENU ESTUDIANTE==============" << endl;
+		 cout << "\t\t\t\t\t\t\t|Bienvenido, " << it->getNombre() << "\t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t1.- Mostrar notas.        \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t0.- Salir.                \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|\t\t                          \t\t|" << endl;
+		cout << "\t\t\t\t\t\t\t|_______________________________________________|" << endl;
+		cout << endl << "\t\t\t\t\t\t\t\t \tIngrese la respuesta: ";
+		cin >> opcion;
+		system("cls");
 
         switch (opcion) {
             case 1:
@@ -202,7 +206,7 @@ void Menu::mostrarMenuEstudiante() {
             	system("cls"); 
                 break;
             default:
-                cout << "Opcion no valida." << endl;
+                cout << "\t\t\t\tOpcion no valida." << endl;
                 system("PAUSE");
                 system("cls");
         }
@@ -212,13 +216,13 @@ void Menu::mostrarMenuEstudiante() {
 void Menu::mostrarContenidoArchivoEstudiantes() {
     ifstream file("estudiantes.txt");
     if (!file.is_open()) {
-        cout << "No se pudo abrir el archivo de estudiantes." << endl;
+        cout << "\t\t\t\tNo se pudo abrir el archivo de estudiantes." << endl;
         return;
     }
 
     string line;
     while ( getline(file, line)) {
-        cout << line << endl;
+        cout << "\t\t\t\t " <<line << endl;
     }
     file.close();
 }
@@ -228,7 +232,7 @@ void Menu::ingresarNotas(const string& docenteId) {
     
     mostrarCursosDisponibles(docenteId);
     string cursoId;
-    cout << "Ingrese el ID del curso: ";
+    cout << "\t\t\t\tIngrese el ID del curso: ";
     cin >> cursoId;
 
     // Ordenar el vector de cursos por ID
@@ -245,7 +249,7 @@ void Menu::ingresarNotas(const string& docenteId) {
     auto cursoIt = binarySearch(cursos, cursoId, getIdFunc);
 
     if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
-        cout << "Curso no encontrado o no asignado a este docente." << endl;
+        cout << "\t\t\t\tCurso no encontrado o no asignado a este docente." << endl;
         system("PAUSE");
         system("cls"); 
         return;
@@ -260,9 +264,11 @@ void Menu::ingresarNotas(const string& docenteId) {
     });
 
     // Mostrar la lista de estudiantes inscritos en orden alfabético
-    cout << "Lista de estudiantes inscritos en el curso " << cursoId << " (orden alfabetico):" << endl;
+    cout << endl; 
+    cout << "\t\t\t\tLista de estudiantes inscritos en el curso " << cursoId << " (orden alfabetico):" << endl;
+    cout << endl; 
     for (const auto& estudiante : estudiantesInscritos) {
-        cout << estudiante.getId() << " " << estudiante.getNombre() << endl;
+        cout <<"\t\t\t\t"<<estudiante.getId() << " " << estudiante.getNombre() << endl;
     }
 
     string estudianteId;
@@ -273,9 +279,9 @@ void Menu::ingresarNotas(const string& docenteId) {
     // notas.clear(); // Eliminar esta línea
 
     while (true) {
-        cout << "Ingrese el ID del estudiante (o 'X' para salir): ";
+        cout << "\t\t\t\tIngrese el ID del estudiante (o 'X' para salir): ";
         cin >> estudianteId;
-
+		cout << endl; 
         // Verificar si el docente quiere salir
         if (estudianteId == "X" || estudianteId == "x") {
             break;
@@ -287,46 +293,46 @@ void Menu::ingresarNotas(const string& docenteId) {
         });
 
         if (estudianteIt == estudiantesInscritos.end()) {
-            cout << "Estudiante no encontrado o no inscrito en este curso." << endl;
+            cout << "\t\t\t\tEstudiante no encontrado o no inscrito en este curso." << endl;
             system("PAUSE");
             system("cls"); 
             continue; // Volver a solicitar el ID del estudiante
         }
 
         // Preguntar en qué unidad se desea ingresar las notas
-        cout << "Ingrese la unidad para la cual desea ingresar las notas (1 o 2): ";
+        cout << "\t\t\t\tIngrese la unidad para la cual desea ingresar las notas (1 o 2): ";
         cin >> unidad;
 
         if (unidad != 1 && unidad != 2) {
-            cout << "Unidad no válida. Debe ser 1 o 2." << endl;
+            cout << "\t\t\t\tUnidad no válida. Debe ser 1 o 2." << endl;
             system("PAUSE");
             system("cls"); 
             continue;
         }
 
         // Pedir las notas y validar que estén en el rango de 0 a 20
-        cout << "Ingrese la nota de desempeno (0-20): ";
+        cout << "\t\t\t\tIngrese la nota de desempeno (0-20): ";
         cin >> nota1;
         if (nota1 < 0 || nota1 > 20) {
-            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
             system("PAUSE");
             system("cls"); 
             continue;
         }
 
-        cout << "Ingrese la nota conocimiento (0-20): ";
+        cout << "\t\t\t\tIngrese la nota conocimiento (0-20): ";
         cin >> nota2;
         if (nota2 < 0 || nota2 > 20) {
-            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
             system("PAUSE");
             system("cls"); 
             continue;
         }
 
-        cout << "Ingrese la nota producto (0-20): ";
+        cout << "\t\t\t\tIngrese la nota producto (0-20): ";
         cin >> nota3;
         if (nota3 < 0 || nota3 > 20) {
-            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
             system("PAUSE");
             system("cls"); 
             continue;
@@ -345,14 +351,14 @@ void Menu::ingresarNotas(const string& docenteId) {
             // Crear una nueva nota con los 6 argumentos
             notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3, unidad);
         }
-
-        cout << "Notas ingresadas correctamente." << endl;
+		cout << endl;
+        cout << "\t\t\t\tNotas ingresadas correctamente." << endl;
     }
 
     // Guardar las notas al final del proceso de ingreso
     GestorArchivos::guardarNotas(notas);
 
-    cout << "Ha salido del modo de ingreso de notas." << endl;
+    cout << "\t\t\t\tHa salido del modo de ingreso de notas." << endl;
     system("PAUSE");
     system("cls"); 
 }
@@ -363,9 +369,9 @@ void Menu::mostrarNotas() {
     // Ordenar las notas usando ShellSort
     shellSort(notas);
 
-    cout << "=========================================================" << endl;
-    cout << "                    NOTAS ORDENADAS                      " << endl;
-    cout << "=========================================================" << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
+    cout << "\t\t\t\t                    NOTAS ORDENADAS                      " << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
 
     // Crear un mapa para agrupar las notas por estudiante y curso
     std::map<std::pair<std::string, std::string>, std::vector<Nota>> notasPorEstudianteCurso;
@@ -402,7 +408,7 @@ void Menu::mostrarNotas() {
         // Mostrar las notas de ambas unidades en secciones separadas
         cout << left << setw(15) << estudianteId
                   << setw(20) << cursoId << endl;
-        cout << "Unidad 1:" << endl;
+        cout << "\t\t\t\tUnidad 1:" << endl;
         cout << setw(15) << ""
                   << setw(15) << "Nota 1"
                   << setw(15) << "Nota 2"
@@ -411,7 +417,7 @@ void Menu::mostrarNotas() {
                   << setw(15) << nota1Unidad1
                   << setw(15) << nota2Unidad1
                   << setw(15) << nota3Unidad1 << endl;
-        cout << "Unidad 2:" << endl;
+        cout << "\t\t\t\tUnidad 2:" << endl;
         cout << setw(15) << ""
                   << setw(15) << "Nota 1"
                   << setw(15) << "Nota 2"
@@ -420,11 +426,12 @@ void Menu::mostrarNotas() {
                   << setw(15) << nota1Unidad2
                   << setw(15) << nota2Unidad2
                   << setw(15) << nota3Unidad2 << endl;
-        cout << "Promedio Final: " << promedioFinal << endl;
-        cout << "---------------------------------------------------------" << endl;
+        cout << "\t\t\t\t---------------------------------------------------------" << endl;
+        cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
+        cout << "\t\t\t\t---------------------------------------------------------" << endl;
     }
 
-    cout << "=========================================================" << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
 
 }
 
@@ -432,9 +439,9 @@ void Menu::mostrarNotas() {
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
      system("cls");
     shellSort(notas);
-    cout << "=========================================================" << endl;
-    cout << "                    NOTAS DEL ESTUDIANTE                 " << endl;
-    cout << "=========================================================" << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
+    cout << "\t\t\t\t                    NOTAS DEL ESTUDIANTE                 " << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
 
     bool encontrado = false;
 
@@ -473,7 +480,7 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
 
         // Mostrar las notas de ambas unidades en secciones separadas
         cout << left << setw(20) << cursoId << endl;
-        cout << "Unidad 1:" << endl;
+        cout << "\t\t\t\tUnidad 1:" << endl;
         cout << setw(15) << ""
                   << setw(15) << "Nota 1"
                   << setw(15) << "Nota 2"
@@ -482,7 +489,7 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
                   << setw(15) << nota1Unidad1
                   << setw(15) << nota2Unidad1
                   << setw(15) << nota3Unidad1 << endl;
-        cout << "Unidad 2:" << endl;
+        cout << "\t\t\t\tUnidad 2:" << endl;
         cout << setw(15) << ""
                   << setw(15) << "Nota 1"
                   << setw(15) << "Nota 2"
@@ -491,13 +498,14 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
                   << setw(15) << nota1Unidad2
                   << setw(15) << nota2Unidad2
                   << setw(15) << nota3Unidad2 << endl;
-        cout << "Promedio Final: " << promedioFinal << endl;
-        cout << "---------------------------------------------------------" << endl;
+        cout << "\t\t\t\t---------------------------------------------------------" << endl;
+        cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
+        cout << "\t\t\t\t---------------------------------------------------------" << endl;
     }
 
     if (!encontrado) {
-        cout << "No hay mas notas registradas por el momento " << endl;
+        cout << "\t\t\t\tNo hay mas notas registradas por el momento " << endl;
     }
 
-    cout << "=========================================================" << endl;
+    cout << "\t\t\t\t=========================================================" << endl;
 }
