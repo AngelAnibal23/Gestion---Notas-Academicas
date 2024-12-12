@@ -139,7 +139,7 @@ void Menu::mostrarMenuDocente() {
                 ingresarNotas(docenteId);
                 break;
             case 2:
-                mostrarNotas();
+                mostrarNotas(docenteId);
                 system("PAUSE");
                 system("cls"); 
                 break;
@@ -363,7 +363,7 @@ void Menu::ingresarNotas(const string& docenteId) {
     system("cls"); 
 }
 
-void Menu::mostrarNotas() {
+void Menu::mostrarNotas(const std::string& idDocente) {
     system("cls");
 
     // Ordenar las notas usando ShellSort
@@ -373,11 +373,17 @@ void Menu::mostrarNotas() {
     cout << "\t\t\t\t                    NOTAS ORDENADAS                      " << endl;
     cout << "\t\t\t\t=========================================================" << endl;
 
-    // Crear un mapa para agrupar las notas por estudiante y curso
+    // Crear un mapa para agrupar las notas por estudiante y curso, pero solo para el docente actual
     std::map<std::pair<std::string, std::string>, std::vector<Nota>> notasPorEstudianteCurso;
 
     for (const auto& nota : notas) {
-        notasPorEstudianteCurso[{nota.getEstudianteId(), nota.getCursoId()}].push_back(nota);
+        // Filtrar las notas por el idDocente
+        for (const auto& curso : cursos) {
+            if (curso.getId() == nota.getCursoId() && curso.getDocenteId() == idDocente) {
+                notasPorEstudianteCurso[{nota.getEstudianteId(), nota.getCursoId()}].push_back(nota);
+                break; // Salir del bucle una vez que se encuentra el curso
+            }
+        }
     }
 
     // Mostrar las notas de ambas unidades en secciones separadas
@@ -432,9 +438,7 @@ void Menu::mostrarNotas() {
     }
 
     cout << "\t\t\t\t=========================================================" << endl;
-
 }
-
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
      system("cls");

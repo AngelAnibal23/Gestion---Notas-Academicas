@@ -13,7 +13,7 @@ public:
     void mostrarMenuDocente();
     void mostrarMenuEstudiante();
     void ingresarNotas(const std::string&);
-    void mostrarNotas();
+    void mostrarNotas(const std::string&);
     void verNotasEstudiante(const std::string& estudianteId);
 
 private:
@@ -27,3 +27,5 @@ private:
 };
 
 #endif // MENU_H
+
+
