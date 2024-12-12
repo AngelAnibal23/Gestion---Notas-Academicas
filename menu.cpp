@@ -227,151 +227,18 @@ void Menu::mostrarContenidoArchivoEstudiantes() {
     file.close();
 }
 
-void Menu::ingresarNotas(const string& docenteId) {
-    system("cls");
-    
-    mostrarCursosDisponibles(docenteId);
-    string cursoId;
-    cout << "\t\t\t\tIngrese el ID del curso: ";
-    cin >> cursoId;
-
-    // Ordenar el vector de cursos por ID
-    ordenarPorId(cursos, function<string(const Curso&)>([](const Curso& curso) {
-        return curso.getId();
-    }));
-
-    // Convertir la lambda a std::function
-    function<string(const Curso&)> getIdFunc = [](const Curso& curso) {
-        return curso.getId();
-    };
-
-    // Usar búsqueda binaria manual para encontrar el curso
-    auto cursoIt = binarySearch(cursos, cursoId, getIdFunc);
-
-    if (cursoIt == cursos.end() || cursoIt->getDocenteId() != docenteId) {
-        cout << "\t\t\t\tCurso no encontrado o no asignado a este docente." << endl;
-        system("PAUSE");
-        system("cls"); 
-        return;
-    }
-
-    // Obtener la lista de estudiantes inscritos en el curso
-    vector<Estudiante> estudiantesInscritos = cursoIt->getEstudiantes();
-
-    // Ordenar los estudiantes inscritos por nombre alfabéticamente
-    sort(estudiantesInscritos.begin(), estudiantesInscritos.end(), [](const Estudiante& a, const Estudiante& b) {
-        return a.getNombre() < b.getNombre();
-    });
-
-    // Mostrar la lista de estudiantes inscritos en orden alfabético
-    cout << endl; 
-    cout << "\t\t\t\tLista de estudiantes inscritos en el curso " << cursoId << " (orden alfabetico):" << endl;
-    cout << endl; 
-    for (const auto& estudiante : estudiantesInscritos) {
-        cout <<"\t\t\t\t"<<estudiante.getId() << " " << estudiante.getNombre() << endl;
-    }
-
-    string estudianteId;
-    int unidad;
-    double nota1, nota2, nota3;
-
-    while (true) {
-        cout << "\t\t\t\tIngrese el ID del estudiante (o 'X' para salir): ";
-        cin >> estudianteId;
-		cout << endl; 
-        // Verificar si el docente quiere salir
-        if (estudianteId == "X" || estudianteId == "x") {
-            break;
-        }
-
-        // Validar que el estudiante existe y está inscrito en el curso
-        auto estudianteIt = find_if(estudiantesInscritos.begin(), estudiantesInscritos.end(), [estudianteId](const Estudiante& estudiante) {
-            return estudiante.getId() == estudianteId;
-        });
-
-        if (estudianteIt == estudiantesInscritos.end()) {
-            cout << "\t\t\t\tEstudiante no encontrado o no inscrito en este curso." << endl;
-            system("PAUSE");
-            system("cls"); 
-            continue; // Volver a solicitar el ID del estudiante
-        }
-
-        // Preguntar en qué unidad se desea ingresar las notas
-        cout << "\t\t\t\tIngrese la unidad para la cual desea ingresar las notas (1 o 2): ";
-        cin >> unidad;
-
-        if (unidad != 1 && unidad != 2) {
-            cout << "\t\t\t\tUnidad no válida. Debe ser 1 o 2." << endl;
-            system("PAUSE");
-            system("cls"); 
-            continue;
-        }
-
-        // Pedir las notas y validar que estén en el rango de 0 a 20
-        cout << "\t\t\t\tIngrese la nota de desempeno (0-20): ";
-        cin >> nota1;
-        if (nota1 < 0 || nota1 > 20) {
-            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
-            system("PAUSE");
-            system("cls"); 
-            continue;
-        }
-
-        cout << "\t\t\t\tIngrese la nota conocimiento (0-20): ";
-        cin >> nota2;
-        if (nota2 < 0 || nota2 > 20) {
-            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
-            system("PAUSE");
-            system("cls"); 
-            continue;
-        }
-
-        cout << "\t\t\t\tIngrese la nota producto (0-20): ";
-        cin >> nota3;
-        if (nota3 < 0 || nota3 > 20) {
-            cout << "\t\t\t\tNota no válida. Debe estar entre 0 y 20." << endl;
-            system("PAUSE");
-            system("cls"); 
-            continue;
-        }
-
-        // Buscar si ya existe una nota para este estudiante y curso en la unidad especificada
-        auto it = find_if(notas.begin(), notas.end(), [estudianteId, cursoId, unidad](const Nota& nota) {
-            return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId && nota.getUnidad() == unidad;
-        });
-
-        if (it != notas.end()) {
-            it->setNota1(nota1);
-            it->setNota2(nota2);
-            it->setNota3(nota3);
-        } else {
-            // Crear una nueva nota con los 6 argumentos
-            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3, unidad);
-        }
-		cout << endl;
-        cout << "\t\t\t\tNotas ingresadas correctamente." << endl;
-    }
-
-    // Guardar las notas al final del proceso de ingreso
-    GestorArchivos::guardarNotas(notas);
-
-    cout << "\t\t\t\tHa salido del modo de ingreso de notas." << endl;
-    system("PAUSE");
-    system("cls"); 
-}
-
-void Menu::mostrarNotas(const string& idDocente) {
+void Menu::mostrarNotas(const std::string& idDocente) {
     system("cls");
 
     // Ordenar las notas usando ShellSort
     shellSort(notas);
 
-    cout << "\t\t\t\t=========================================================" << endl;
-    cout << "\t\t\t\t                    NOTAS ORDENADAS                      " << endl;
-    cout << "\t\t\t\t=========================================================" << endl;
+    cout << "\t\t\t\t====================================================================================" << endl;
+    cout << "\t\t\t\t                    REGISTRO DE NOTAS INGRESADAS POR EL DOCENTES" << endl;
+    cout << "\t\t\t\t====================================================================================" << endl;
 
     // Crear un mapa para agrupar las notas por estudiante y curso, pero solo para el docente actual
-    map<pair<string,string>, vector<Nota>> notasPorEstudianteCurso;
+    std::map<std::pair<std::string, std::string>, std::vector<Nota>> notasPorEstudianteCurso;
 
     for (const auto& nota : notas) {
         // Filtrar las notas por el idDocente
@@ -385,9 +252,9 @@ void Menu::mostrarNotas(const string& idDocente) {
 
     // Mostrar las notas de ambas unidades en secciones separadas
     for (const auto& par : notasPorEstudianteCurso) {
-        const string& estudianteId = par.first.first;
-        const string& cursoId = par.first.second;
-        const vector<Nota>& notasDelEstudiante = par.second;
+        const std::string& estudianteId = par.first.first;
+        const std::string& cursoId = par.first.second;
+        const std::vector<Nota>& notasDelEstudiante = par.second;
 
         // Variables para almacenar las notas de ambas unidades
         double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;
@@ -409,26 +276,26 @@ void Menu::mostrarNotas(const string& idDocente) {
         double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
 
         // Mostrar las notas de ambas unidades en secciones separadas
-        cout << left << setw(15) << estudianteId
-                  << setw(20) << cursoId << endl;
+        cout << left << setw(15) <<"\t\t\t\ "<< estudianteId
+                  << setw(20) << "    "<<cursoId << endl;
         cout << "\t\t\t\tUnidad 1:" << endl;
         cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
+                  << setw(15) << "\t\t\t\Nota EC"
+                  << setw(15) << "\t\t\t\Nota EP"
+                  << setw(15) << "\t\t\t\Nota ED" << endl;
         cout << setw(15) << ""
-                  << setw(15) << nota1Unidad1
-                  << setw(15) << nota2Unidad1
-                  << setw(15) << nota3Unidad1 << endl;
+                  << setw(15) <<"\t\t\t\ " << nota1Unidad1
+                  << setw(15) <<"\t\t\t\ " << nota2Unidad1
+                  << setw(15) <<"\t\t\t\ " << nota3Unidad1 << endl;
         cout << "\t\t\t\tUnidad 2:" << endl;
         cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
+                  << setw(15) << "\t\t\t\Nota EC"
+                  << setw(15) << "\t\t\t\Nota EP"
+                  << setw(15) << "\t\t\t\Nota ED" << endl;
         cout << setw(15) << ""
-                  << setw(15) << nota1Unidad2
-                  << setw(15) << nota2Unidad2
-                  << setw(15) << nota3Unidad2 << endl;
+                  << setw(15) <<"\t\t\t\ " << nota1Unidad2
+                  << setw(15) <<"\t\t\t\ " << nota2Unidad2
+                  << setw(15) <<"\t\t\t\ " << nota3Unidad2 << endl;
         cout << "\t\t\t\t---------------------------------------------------------" << endl;
         cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
         cout << "\t\t\t\t---------------------------------------------------------" << endl;
@@ -437,7 +304,7 @@ void Menu::mostrarNotas(const string& idDocente) {
     cout << "\t\t\t\t=========================================================" << endl;
 }
 
-void Menu::verNotasEstudiante(const string& estudianteId) {
+void Menu::verNotasEstudiante(const std::string& estudianteId) {
      system("cls");
     shellSort(notas);
     cout << "\t\t\t\t=========================================================" << endl;
@@ -447,7 +314,7 @@ void Menu::verNotasEstudiante(const string& estudianteId) {
     bool encontrado = false;
 
     // Crear un mapa para agrupar las notas por curso
-    map<string, vector<Nota>> notasPorCurso;
+    std::map<std::string, std::vector<Nota>> notasPorCurso;
 
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
@@ -457,8 +324,8 @@ void Menu::verNotasEstudiante(const string& estudianteId) {
 
     // Mostrar las notas de ambas unidades en secciones separadas
     for (const auto& par : notasPorCurso) {
-        const string& cursoId = par.first;
-        const vector<Nota>& notasDelCurso = par.second;
+        const std::string& cursoId = par.first;
+        const std::vector<Nota>& notasDelCurso = par.second;
 
         // Variables para almacenar las notas de ambas unidades
         double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;
@@ -480,25 +347,25 @@ void Menu::verNotasEstudiante(const string& estudianteId) {
         double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
 
         // Mostrar las notas de ambas unidades en secciones separadas
-        cout << left << setw(20) << cursoId << endl;
+        cout << left << setw(20) << "\t\t\t\ " << cursoId << endl;
         cout << "\t\t\t\tUnidad 1:" << endl;
         cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
+                  << setw(15) << "\t\t\t\Nota EC"
+                  << setw(15) << "\t\t\t\Nota EP"
+                  << setw(15) << "\t\t\t\Nota ED" << endl;
         cout << setw(15) << ""
-                  << setw(15) << nota1Unidad1
-                  << setw(15) << nota2Unidad1
-                  << setw(15) << nota3Unidad1 << endl;
+                  << setw(15) <<"\t\t\t\ " << nota1Unidad1
+                  << setw(15) <<"\t\t\t\ " << nota2Unidad1
+                  << setw(15) <<"\t\t\t\ " << nota3Unidad1 << endl;
         cout << "\t\t\t\tUnidad 2:" << endl;
         cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
+                  << setw(15) << "\t\t\t\Nota EC"
+                  << setw(15) << "\t\t\t\Nota EP"
+                  << setw(15) << "\t\t\t\Nota ED" << endl;
         cout << setw(15) << ""
-                  << setw(15) << nota1Unidad2
-                  << setw(15) << nota2Unidad2
-                  << setw(15) << nota3Unidad2 << endl;
+                  << setw(15) <<"\t\t\t\ " << nota1Unidad2
+                  << setw(15) <<"\t\t\t\ " << nota2Unidad2
+                  << setw(15) <<"\t\t\t\ " << nota3Unidad2 << endl;
         cout << "\t\t\t\t---------------------------------------------------------" << endl;
         cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
         cout << "\t\t\t\t---------------------------------------------------------" << endl;
