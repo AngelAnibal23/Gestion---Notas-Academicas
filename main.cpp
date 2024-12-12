@@ -5,7 +5,7 @@
 #include "gestorArchivos.h"
 #include "menu.h"
 
-//using namespace std;
+using namespace std;
 
 int main() {
      vector<Docente> docentes = GestorArchivos::cargarDocentes("docentes.txt");

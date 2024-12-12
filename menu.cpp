@@ -77,7 +77,7 @@ void Menu::mostrarCursosDisponibles(const string& docenteId) {
 
     for (const auto& curso : cursos) {
         if (curso.getDocenteId() == docenteId) {
-            std::cout << std::left << "\t\t\t\t" << std::setw(10) << curso.getId() << std::setw(40) << curso.getNombre() << std::endl;
+            cout << std::left << "\t\t\t\t" << setw(10) << curso.getId() << setw(40) << curso.getNombre() << endl;
         }
     }
 
@@ -147,7 +147,7 @@ void Menu::mostrarMenuDocente() {
             	system("cls"); 
                 break;
             default:
-                std::cout << "\t\t\t\tOpcion no valida." << std::endl;
+                std::cout << "\t\t\t\tOpcion no valida." << endl;
                 system("PAUSE");
                 system("cls"); 
         }
@@ -275,9 +275,6 @@ void Menu::ingresarNotas(const string& docenteId) {
     int unidad;
     double nota1, nota2, nota3;
 
-    // No limpiar el vector de notas, simplemente agrega nuevas notas
-    // notas.clear(); // Eliminar esta línea
-
     while (true) {
         cout << "\t\t\t\tIngrese el ID del estudiante (o 'X' para salir): ";
         cin >> estudianteId;
@@ -363,7 +360,7 @@ void Menu::ingresarNotas(const string& docenteId) {
     system("cls"); 
 }
 
-void Menu::mostrarNotas(const std::string& idDocente) {
+void Menu::mostrarNotas(const string& idDocente) {
     system("cls");
 
     // Ordenar las notas usando ShellSort
@@ -374,7 +371,7 @@ void Menu::mostrarNotas(const std::string& idDocente) {
     cout << "\t\t\t\t=========================================================" << endl;
 
     // Crear un mapa para agrupar las notas por estudiante y curso, pero solo para el docente actual
-    std::map<std::pair<std::string, std::string>, std::vector<Nota>> notasPorEstudianteCurso;
+    map<pair<string,string>, vector<Nota>> notasPorEstudianteCurso;
 
     for (const auto& nota : notas) {
         // Filtrar las notas por el idDocente
@@ -388,9 +385,9 @@ void Menu::mostrarNotas(const std::string& idDocente) {
 
     // Mostrar las notas de ambas unidades en secciones separadas
     for (const auto& par : notasPorEstudianteCurso) {
-        const std::string& estudianteId = par.first.first;
-        const std::string& cursoId = par.first.second;
-        const std::vector<Nota>& notasDelEstudiante = par.second;
+        const string& estudianteId = par.first.first;
+        const string& cursoId = par.first.second;
+        const vector<Nota>& notasDelEstudiante = par.second;
 
         // Variables para almacenar las notas de ambas unidades
         double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;
@@ -440,7 +437,7 @@ void Menu::mostrarNotas(const std::string& idDocente) {
     cout << "\t\t\t\t=========================================================" << endl;
 }
 
-void Menu::verNotasEstudiante(const std::string& estudianteId) {
+void Menu::verNotasEstudiante(const string& estudianteId) {
      system("cls");
     shellSort(notas);
     cout << "\t\t\t\t=========================================================" << endl;
@@ -450,7 +447,7 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
     bool encontrado = false;
 
     // Crear un mapa para agrupar las notas por curso
-    std::map<std::string, std::vector<Nota>> notasPorCurso;
+    map<string, vector<Nota>> notasPorCurso;
 
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
@@ -460,8 +457,8 @@ void Menu::verNotasEstudiante(const std::string& estudianteId) {
 
     // Mostrar las notas de ambas unidades en secciones separadas
     for (const auto& par : notasPorCurso) {
-        const std::string& cursoId = par.first;
-        const std::vector<Nota>& notasDelCurso = par.second;
+        const string& cursoId = par.first;
+        const vector<Nota>& notasDelCurso = par.second;
 
         // Variables para almacenar las notas de ambas unidades
         double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;

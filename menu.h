@@ -7,23 +7,25 @@
 #include "curso.h"
 #include "nota.h"
 
+using namespace std;
+
 class Menu {
 public:
-    Menu(const std::vector<Docente>& docentes, const std::vector<Estudiante>& estudiantes, std::vector<Curso>& cursos, std::vector<Nota>& notas);
+    Menu(const vector<Docente>& docentes, const vector<Estudiante>& estudiantes, vector<Curso>& cursos, vector<Nota>& notas);
     void mostrarMenuDocente();
     void mostrarMenuEstudiante();
-    void ingresarNotas(const std::string&);
-    void mostrarNotas(const std::string&);
-    void verNotasEstudiante(const std::string& estudianteId);
+    void ingresarNotas(const string&);
+    void mostrarNotas(const string&);
+    void verNotasEstudiante(const string& estudianteId);
 
 private:
     void mostrarListaEstudiantes();
     void mostrarContenidoArchivoEstudiantes();
-	void mostrarCursosDisponibles(const std::string&); 
-    std::vector<Docente> docentes;
-    std::vector<Estudiante> estudiantes;
-    std::vector<Curso>& cursos;
-    std::vector<Nota>& notas;
+	void mostrarCursosDisponibles(const string&); 
+    vector<Docente> docentes;
+    vector<Estudiante> estudiantes;
+    vector<Curso>& cursos;
+    vector<Nota>& notas;
 };
 
 #endif // MENU_H
