@@ -1,18 +1,36 @@
 I101,Introduccion a la Programacion,2024-385921
 I102,Algoritmos y Estructuras de Datos,2024-385921
-I201,Programacion Orientada a Objetos,2024-156739
+I201,Programacion Orientada a Objetos,2024-385921
+I501,Realidad Virtual y Aumentada,2024-385921
 I202,Bases de Datos,2024-156739
+I503,Blockchain y Criptomonedas,2024-156739
+I504,Automatizacion con IoT,2024-156739
+I505,Analisis Predictivo,2024-156739
 I203,Redes de Computadoras,2024-923851
 I204,Sistemas Operativos,2024-923851
+I601,Robotica Avanzada,2024-923851
+I602,Procesamiento de Lenguaje Natural,2024-923851
 I301,Diseno de Software,2024-472918
 I302,Inteligencia Artificial,2024-472918
+I603,Desarrollo de Aplicaciones Moviles,2024-472918
+I702,Gestion de Infraestructura IT,2024-472918
 I303,Desarrollo de Aplicaciones Web,2024-582614
+I605,Vision por Computador,2024-582614
+I606,Simulacion y Modelado,2024-582614
+I704,Sistemas de Informacion Geografica,2024-582614
 I304,Seguridad Informatica,2024-635027
-I305,Ciencia de Datos,2024-719453
+I305,Ciencia de Datos,2024-635027
+I705,Big Data y su Aplicacion Empresarial,2024-635027
 I306,Mineria de Datos,2024-719453
+I701,Etica y Tecnologia,2024-719453
+I803,Gestion Avanzada de Bases de Datos,2024-719453
 I401,Programacion Avanzada,2024-398175
+I405,Computacion en la Nube,2024-398175
+I801,Ciberguerra y Seguridad Nacional,2024-398175
+I802,Optimizacion de Recursos en IT,2024-398175
 I402,Arquitectura de Computadoras,2024-246589
+I805,Tecnologias Emergentes,2024-246589
+I806,Investigacion y Desarrollo en IA,2024-246589
 I403,Administracion de Proyectos de Software,2024-017346
 I404,Ingenieria de Requisitos,2024-017346
-I405,Computacion en la Nube,2024-398175
-I406,Machine Learning,2024-472918
+I804,Desarrollo de Aplicaciones de Realidad Extendida,2024-017346
