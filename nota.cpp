@@ -1,13 +1,14 @@
 #include "nota.h"
 
-Nota::Nota(std::string estudianteId, std::string cursoId, double nota1, double nota2, double nota3)
-    : estudianteId(estudianteId), cursoId(cursoId), nota1(nota1), nota2(nota2), nota3(nota3) {}
+// Constructor que acepta 6 argumentos
+Nota::Nota(const string& estudianteId, const string& cursoId, double nota1, double nota2, double nota3, int unidad)
+    : estudianteId(estudianteId), cursoId(cursoId), nota1(nota1), nota2(nota2), nota3(nota3), unidad(unidad) {}
 
-std::string Nota::getEstudianteId() const {
+string Nota::getEstudianteId() const {
     return estudianteId;
 }
 
-std::string Nota::getCursoId() const {
+string Nota::getCursoId() const {
     return cursoId;
 }
 
@@ -23,16 +24,20 @@ double Nota::getNota3() const {
     return nota3;
 }
 
-void Nota::setNota1(double nota) {
-    nota1 = nota;
+int Nota::getUnidad() const { // Implementación del método getUnidad
+    return unidad;
 }
 
-void Nota::setNota2(double nota) {
-    nota2 = nota;
+void Nota::setNota1(double nota1) {
+    this->nota1 = nota1;
 }
 
-void Nota::setNota3(double nota) {
-    nota3 = nota;
+void Nota::setNota2(double nota2) {
+    this->nota2 = nota2;
+}
+
+void Nota::setNota3(double nota3) {
+    this->nota3 = nota3;
 }
 
 double Nota::calcularPromedio() const {

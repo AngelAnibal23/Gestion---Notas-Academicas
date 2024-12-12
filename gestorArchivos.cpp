@@ -1,5 +1,4 @@
 #include "gestorArchivos.h"
-#include "usuario.h"
 #include <fstream>
 #include <sstream>
 #include <iostream> // Para depuración
@@ -49,28 +48,57 @@ std::vector<Curso> GestorArchivos::cargarCursos(const std::string& archivo) {
     return cursos;
 }
 
-std::vector<Nota> GestorArchivos::cargarNotas(const std::string& archivo) {
+std::vector<Nota> GestorArchivos::cargarNotas() {
+    std::vector<Nota> notasUnidad1 = cargarNotasUnidad("notas_unidad1.txt");
+    std::vector<Nota> notasUnidad2 = cargarNotasUnidad("notas_unidad2.txt");
+
+    // Combinar las notas de ambas unidades
+    std::vector<Nota> notas;
+    notas.insert(notas.end(), notasUnidad1.begin(), notasUnidad1.end());
+    notas.insert(notas.end(), notasUnidad2.begin(), notasUnidad2.end());
+
+    return notas;
+}
+
+std::vector<Nota> GestorArchivos::cargarNotasUnidad(const std::string& archivo) {
     std::vector<Nota> notas;
     std::ifstream file(archivo);
     std::string line;
+
     while (std::getline(file, line)) {
         std::istringstream iss(line);
         std::string estudianteId, cursoId;
         double nota1, nota2, nota3;
-        if (std::getline(iss, estudianteId, ',') && std::getline(iss, cursoId, ',') && iss >> nota1 && iss.ignore() && iss >> nota2 && iss.ignore() && iss >> nota3) {
-            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3);
-        } else {
-            std::cerr << "Error al leer la linea: " << line << std::endl; // Depuración
+        int unidad;
+
+        if (std::getline(iss, estudianteId, ',') && std::getline(iss, cursoId, ',') &&
+            iss >> nota1 && iss.ignore() && iss >> nota2 && iss.ignore() && iss >> nota3) {
+            // Determinar la unidad basándonos en el archivo
+            unidad = (archivo == "notas_unidad1.txt") ? 1 : 2;
+            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3, unidad);
         }
     }
+
     return notas;
 }
 
-void GestorArchivos::guardarNotas(const std::string& archivo, const std::vector<Nota>& notas) {
-    std::ofstream file(archivo);
+void GestorArchivos::guardarNotas(const std::vector<Nota>& notas) {
+   std::ofstream fileUnidad1("notas_unidad1.txt"); // Sobrescribir el archivo
+    std::ofstream fileUnidad2("notas_unidad2.txt"); // Sobrescribir el archivo
+
+    if (!fileUnidad1.is_open() || !fileUnidad2.is_open()) {
+        std::cerr << "Error al abrir los archivos de notas para escritura." << std::endl;
+        return;
+    }
+
     for (const auto& nota : notas) {
-        file << nota.getEstudianteId() << "," << nota.getCursoId() << ","
-             << nota.getNota1() << "," << nota.getNota2() << "," << nota.getNota3() << std::endl;
+        if (nota.getUnidad() == 1) {
+            fileUnidad1 << nota.getEstudianteId() << "," << nota.getCursoId() << ","
+                        << nota.getNota1() << "," << nota.getNota2() << "," << nota.getNota3() << std::endl;
+        } else if (nota.getUnidad() == 2) {
+            fileUnidad2 << nota.getEstudianteId() << "," << nota.getCursoId() << ","
+                        << nota.getNota1() << "," << nota.getNota2() << "," << nota.getNota3() << std::endl;
+        }
     }
 }
 
