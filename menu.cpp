@@ -8,8 +8,12 @@
 #include "usuario.h" 
 #include "docente.h"
 #include "estudiante.h"
+#include <map>
+#include "gestorArchivos.h"
 
 using namespace std; 
+
+vector<Nota> notas = GestorArchivos::cargarNotas();
 
 // Constructor
 Menu::Menu(const vector<Docente>& docentes, const vector<Estudiante>& estudiantes, vector<Curso>& cursos, vector<Nota>& notas)
@@ -189,8 +193,8 @@ void Menu::mostrarMenuEstudiante() {
 
         switch (opcion) {
             case 1:
-               // verNotasEstudiante(estudianteId);
-                mostrarNotas();  
+               //verNotasEstudiante(estudianteId);
+                verNotasEstudiante(estudianteId); 
                 system("PAUSE");
                 system("cls");
                 break;
@@ -262,7 +266,11 @@ void Menu::ingresarNotas(const string& docenteId) {
     }
 
     string estudianteId;
+    int unidad;
     double nota1, nota2, nota3;
+
+    // No limpiar el vector de notas, simplemente agrega nuevas notas
+    // notas.clear(); // Eliminar esta línea
 
     while (true) {
         cout << "Ingrese el ID del estudiante (o 'X' para salir): ";
@@ -285,15 +293,48 @@ void Menu::ingresarNotas(const string& docenteId) {
             continue; // Volver a solicitar el ID del estudiante
         }
 
-        cout << "Ingrese la nota de desempeno: ";
-        cin >> nota1;
-        cout << "Ingrese la nota conocimiento: ";
-        cin >> nota2;
-        cout << "Ingrese la nota producto: ";
-        cin >> nota3;
+        // Preguntar en qué unidad se desea ingresar las notas
+        cout << "Ingrese la unidad para la cual desea ingresar las notas (1 o 2): ";
+        cin >> unidad;
 
-        auto it = find_if(notas.begin(), notas.end(), [estudianteId, cursoId](const Nota& nota) {
-            return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId;
+        if (unidad != 1 && unidad != 2) {
+            cout << "Unidad no válida. Debe ser 1 o 2." << endl;
+            system("PAUSE");
+            system("cls"); 
+            continue;
+        }
+
+        // Pedir las notas y validar que estén en el rango de 0 a 20
+        cout << "Ingrese la nota de desempeno (0-20): ";
+        cin >> nota1;
+        if (nota1 < 0 || nota1 > 20) {
+            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            system("PAUSE");
+            system("cls"); 
+            continue;
+        }
+
+        cout << "Ingrese la nota conocimiento (0-20): ";
+        cin >> nota2;
+        if (nota2 < 0 || nota2 > 20) {
+            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            system("PAUSE");
+            system("cls"); 
+            continue;
+        }
+
+        cout << "Ingrese la nota producto (0-20): ";
+        cin >> nota3;
+        if (nota3 < 0 || nota3 > 20) {
+            cout << "Nota no válida. Debe estar entre 0 y 20." << endl;
+            system("PAUSE");
+            system("cls"); 
+            continue;
+        }
+
+        // Buscar si ya existe una nota para este estudiante y curso en la unidad especificada
+        auto it = find_if(notas.begin(), notas.end(), [estudianteId, cursoId, unidad](const Nota& nota) {
+            return nota.getEstudianteId() == estudianteId && nota.getCursoId() == cursoId && nota.getUnidad() == unidad;
         });
 
         if (it != notas.end()) {
@@ -301,11 +342,15 @@ void Menu::ingresarNotas(const string& docenteId) {
             it->setNota2(nota2);
             it->setNota3(nota3);
         } else {
-            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3);
+            // Crear una nueva nota con los 6 argumentos
+            notas.emplace_back(estudianteId, cursoId, nota1, nota2, nota3, unidad);
         }
 
         cout << "Notas ingresadas correctamente." << endl;
     }
+
+    // Guardar las notas al final del proceso de ingreso
+    GestorArchivos::guardarNotas(notas);
 
     cout << "Ha salido del modo de ingreso de notas." << endl;
     system("PAUSE");
@@ -321,56 +366,137 @@ void Menu::mostrarNotas() {
     cout << "=========================================================" << endl;
     cout << "                    NOTAS ORDENADAS                      " << endl;
     cout << "=========================================================" << endl;
-    cout << left << setw(15) << "Estudiante ID"
-              << setw(15) << "Curso ID"
-              << setw(15) << "Nota 1"
-              << setw(15) << "Nota 2"
-              << setw(15) << "Nota 3"
-              << setw(15) << "Promedio" << endl;
-    cout << "---------------------------------------------------------" << endl;
+
+    // Crear un mapa para agrupar las notas por estudiante y curso
+    std::map<std::pair<std::string, std::string>, std::vector<Nota>> notasPorEstudianteCurso;
 
     for (const auto& nota : notas) {
-        cout << left << setw(15) << nota.getEstudianteId()
-                  << setw(15) << nota.getCursoId()
-                  << setw(15) << nota.getNota1()
-                  << setw(15) << nota.getNota2()
-                  << setw(15) << nota.getNota3()
-                  << setw(15) << nota.calcularPromedio() << endl;
+        notasPorEstudianteCurso[{nota.getEstudianteId(), nota.getCursoId()}].push_back(nota);
+    }
+
+    // Mostrar las notas de ambas unidades en secciones separadas
+    for (const auto& par : notasPorEstudianteCurso) {
+        const std::string& estudianteId = par.first.first;
+        const std::string& cursoId = par.first.second;
+        const std::vector<Nota>& notasDelEstudiante = par.second;
+
+        // Variables para almacenar las notas de ambas unidades
+        double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;
+        double nota1Unidad2 = 0, nota2Unidad2 = 0, nota3Unidad2 = 0;
+
+        for (const auto& nota : notasDelEstudiante) {
+            if (nota.getUnidad() == 1) {
+                nota1Unidad1 = nota.getNota1();
+                nota2Unidad1 = nota.getNota2();
+                nota3Unidad1 = nota.getNota3();
+            } else if (nota.getUnidad() == 2) {
+                nota1Unidad2 = nota.getNota1();
+                nota2Unidad2 = nota.getNota2();
+                nota3Unidad2 = nota.getNota3();
+            }
+        }
+
+        // Calcular el promedio final de ambas unidades
+        double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
+
+        // Mostrar las notas de ambas unidades en secciones separadas
+        cout << left << setw(15) << estudianteId
+                  << setw(20) << cursoId << endl;
+        cout << "Unidad 1:" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << "Nota 1"
+                  << setw(15) << "Nota 2"
+                  << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << nota1Unidad1
+                  << setw(15) << nota2Unidad1
+                  << setw(15) << nota3Unidad1 << endl;
+        cout << "Unidad 2:" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << "Nota 1"
+                  << setw(15) << "Nota 2"
+                  << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << nota1Unidad2
+                  << setw(15) << nota2Unidad2
+                  << setw(15) << nota3Unidad2 << endl;
+        cout << "Promedio Final: " << promedioFinal << endl;
+        cout << "---------------------------------------------------------" << endl;
     }
 
     cout << "=========================================================" << endl;
+
 }
 
 
 void Menu::verNotasEstudiante(const std::string& estudianteId) {
-    system("cls");
+     system("cls");
     shellSort(notas);
     cout << "=========================================================" << endl;
     cout << "                    NOTAS DEL ESTUDIANTE                 " << endl;
     cout << "=========================================================" << endl;
-    cout << left << std::setw(10) << "Curso"
-              << setw(10) << "Nota CN"
-              << setw(10) << "Nota PR"
-              << setw(10) << "Nota DP"
-              << setw(10) << "Promedio" << endl;
-    cout << "---------------------------------------------------------" << endl;
 
     bool encontrado = false;
 
+    // Crear un mapa para agrupar las notas por curso
+    std::map<std::string, std::vector<Nota>> notasPorCurso;
+
     for (const auto& nota : notas) {
         if (nota.getEstudianteId() == estudianteId) {
-            encontrado = true;
-            cout << left << setw(10) << nota.getCursoId()
-                      << setw(10) << nota.getNota1()
-                      << setw(10) << nota.getNota2()
-                      << setw(10) << nota.getNota3()
-                      << setw(10) << nota.calcularPromedio() << endl;
+            notasPorCurso[nota.getCursoId()].push_back(nota);
         }
     }
 
+    // Mostrar las notas de ambas unidades en secciones separadas
+    for (const auto& par : notasPorCurso) {
+        const std::string& cursoId = par.first;
+        const std::vector<Nota>& notasDelCurso = par.second;
+
+        // Variables para almacenar las notas de ambas unidades
+        double nota1Unidad1 = 0, nota2Unidad1 = 0, nota3Unidad1 = 0;
+        double nota1Unidad2 = 0, nota2Unidad2 = 0, nota3Unidad2 = 0;
+
+        for (const auto& nota : notasDelCurso) {
+            if (nota.getUnidad() == 1) {
+                nota1Unidad1 = nota.getNota1();
+                nota2Unidad1 = nota.getNota2();
+                nota3Unidad1 = nota.getNota3();
+            } else if (nota.getUnidad() == 2) {
+                nota1Unidad2 = nota.getNota1();
+                nota2Unidad2 = nota.getNota2();
+                nota3Unidad2 = nota.getNota3();
+            }
+        }
+
+        // Calcular el promedio final de ambas unidades
+        double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
+
+        // Mostrar las notas de ambas unidades en secciones separadas
+        cout << left << setw(20) << cursoId << endl;
+        cout << "Unidad 1:" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << "Nota 1"
+                  << setw(15) << "Nota 2"
+                  << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << nota1Unidad1
+                  << setw(15) << nota2Unidad1
+                  << setw(15) << nota3Unidad1 << endl;
+        cout << "Unidad 2:" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << "Nota 1"
+                  << setw(15) << "Nota 2"
+                  << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << ""
+                  << setw(15) << nota1Unidad2
+                  << setw(15) << nota2Unidad2
+                  << setw(15) << nota3Unidad2 << endl;
+        cout << "Promedio Final: " << promedioFinal << endl;
+        cout << "---------------------------------------------------------" << endl;
+    }
+
     if (!encontrado) {
-        cout << "No se encontraron notas para el estudiante con ID: "
-                  << estudianteId << endl;
+        cout << "No hay mas notas registradas por el momento " << endl;
     }
 
     cout << "=========================================================" << endl;
