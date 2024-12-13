@@ -366,12 +366,12 @@ void Menu::mostrarNotas(const string& idDocente) {
     // Ordenar las notas usando ShellSort
     shellSort(notas);
 
-    cout << "\t\t\t\t=========================================================" << endl;
-    cout << "\t\t\t\t                   REGISTRO DE NOTAS INGRESADAS                     " << endl;
-    cout << "\t\t\t\t=========================================================" << endl;
+    cout << string(60, '=') << endl;
+    cout << setw(40) << "REGISTRO DE NOTAS INGRESADAS" << endl;
+    cout << string(60, '=') << endl;
 
     // Crear un mapa para agrupar las notas por estudiante y curso, pero solo para el docente actual
-    map<pair<string,string>, vector<Nota>> notasPorEstudianteCurso;
+    map<pair<string, string>, vector<Nota>> notasPorEstudianteCurso;
 
     for (const auto& nota : notas) {
         // Filtrar las notas por el idDocente
@@ -408,43 +408,34 @@ void Menu::mostrarNotas(const string& idDocente) {
         // Calcular el promedio final de ambas unidades
         double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
 
-        // Mostrar las notas de ambas unidades en secciones separadas
-        cout << left << setw(15) << estudianteId
-                  << setw(20) << cursoId << endl;
-        cout << "\t\t\t\tUnidad 1:" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << nota1Unidad1
-                  << setw(15) << nota2Unidad1
-                  << setw(15) << nota3Unidad1 << endl;
-        cout << "\t\t\t\tUnidad 2:" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << nota1Unidad2
-                  << setw(15) << nota2Unidad2
-                  << setw(15) << nota3Unidad2 << endl;
-        cout << "\t\t\t\t---------------------------------------------------------" << endl;
-        cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
-        cout << "\t\t\t\t---------------------------------------------------------" << endl;
+        // Mostrar encabezado del estudiante y curso
+        cout << setw(20) << left << estudianteId << setw(20) << cursoId << endl;
+
+        // Mostrar Unidad 1
+        cout << string(60, '-') << endl;
+        cout << setw(30) << "Unidad 1" << endl;
+        cout << setw(15) << "" << setw(15) << "Nota 1" << setw(15) << "Nota 2" << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << "" << setw(15) << nota1Unidad1 << setw(15) << nota2Unidad1 << setw(15) << nota3Unidad1 << endl;
+
+        // Mostrar Unidad 2
+        cout << setw(30) << "Unidad 2" << endl;
+        cout << setw(15) << "" << setw(15) << "Nota 1" << setw(15) << "Nota 2" << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << "" << setw(15) << nota1Unidad2 << setw(15) << nota2Unidad2 << setw(15) << nota3Unidad2 << endl;
+        cout << string(60, '-') << endl;
+        cout << setw(30) << "Promedio Final: " << promedioFinal << endl;
+        cout << string(60, '-') << endl;
     }
 
-    cout << "\t\t\t\t=========================================================" << endl;
+    cout << string(60, '=') << endl;
 }
 
 void Menu::verNotasEstudiante(const string& estudianteId) {
-     system("cls");
+    system("cls");
     shellSort(notas);
-    cout << "\t\t\t\t=========================================================" << endl;
-    cout << "\t\t\t\t                    NOTAS DEL ESTUDIANTE                 " << endl;
-    cout << "\t\t\t\t=========================================================" << endl;
 
-    bool encontrado = false;
+    cout << string(60, '=') << endl;
+    cout << setw(40) << "NOTAS DEL ESTUDIANTE" << endl;
+    cout << string(60, '=') << endl;
 
     // Crear un mapa para agrupar las notas por curso
     map<string, vector<Nota>> notasPorCurso;
@@ -479,34 +470,23 @@ void Menu::verNotasEstudiante(const string& estudianteId) {
         // Calcular el promedio final de ambas unidades
         double promedioFinal = (nota1Unidad1 + nota2Unidad1 + nota3Unidad1 + nota1Unidad2 + nota2Unidad2 + nota3Unidad2) / 6.0;
 
-        // Mostrar las notas de ambas unidades en secciones separadas
-        cout << left << setw(20) << cursoId << endl;
-        cout << "\t\t\t\tUnidad 1:" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << nota1Unidad1
-                  << setw(15) << nota2Unidad1
-                  << setw(15) << nota3Unidad1 << endl;
-        cout << "\t\t\t\tUnidad 2:" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << "Nota 1"
-                  << setw(15) << "Nota 2"
-                  << setw(15) << "Nota 3" << endl;
-        cout << setw(15) << ""
-                  << setw(15) << nota1Unidad2
-                  << setw(15) << nota2Unidad2
-                  << setw(15) << nota3Unidad2 << endl;
-        cout << "\t\t\t\t---------------------------------------------------------" << endl;
-        cout << "\t\t\t\tPromedio Final: " << promedioFinal << endl;
-        cout << "\t\t\t\t---------------------------------------------------------" << endl;
+        // Mostrar encabezado del curso
+        cout << setw(30) << left << cursoId << endl;
+
+        // Mostrar Unidad 1
+        cout << string(60, '-') << endl;
+        cout << setw(30) << "Unidad 1" << endl;
+        cout << setw(15) << "" << setw(15) << "Nota 1" << setw(15) << "Nota 2" << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << "" << setw(15) << nota1Unidad1 << setw(15) << nota2Unidad1 << setw(15) << nota3Unidad1 << endl;
+
+        // Mostrar Unidad 2
+        cout << setw(30) << "Unidad 2" << endl;
+        cout << setw(15) << "" << setw(15) << "Nota 1" << setw(15) << "Nota 2" << setw(15) << "Nota 3" << endl;
+        cout << setw(15) << "" << setw(15) << nota1Unidad2 << setw(15) << nota2Unidad2 << setw(15) << nota3Unidad2 << endl;
+        cout << string(60, '-') << endl;
+        cout << setw(30) << "Promedio Final: " << promedioFinal << endl;
+        cout << string(60, '-') << endl;
     }
 
-    if (!encontrado) {
-        cout << "\t\t\t\tNo hay mas notas registradas por el momento " << endl;
-    }
-
-    cout << "\t\t\t\t=========================================================" << endl;
+    cout << string(60, '=') << endl;
 }
